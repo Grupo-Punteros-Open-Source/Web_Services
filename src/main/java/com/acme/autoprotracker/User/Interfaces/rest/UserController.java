@@ -51,7 +51,7 @@ public class UserController {
 
     @PutMapping("/{userId}")
     public ResponseEntity<UserResource> updateUser(@RequestBody UpdateUserResource updateUserResource, @PathVariable Long userId) {
-        var updateUserCommand = updateUserCommandFromResourceAssembler.toCommandFromResource(updateUserResource, userId);
+        var updateUserCommand = updateUserCommandFromResourceAssembler.toCommandFromResource(updateUserResource);
         var user = userCommandService.handle(updateUserCommand);
         if (user.isEmpty()) {
             return ResponseEntity.badRequest().build();

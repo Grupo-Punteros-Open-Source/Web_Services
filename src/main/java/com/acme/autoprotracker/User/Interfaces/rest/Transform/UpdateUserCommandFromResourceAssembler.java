@@ -7,16 +7,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class UpdateUserCommandFromResourceAssembler {
 
-    public UpdateUserCommand toCommandFromResource(UpdateUserResource resource, long id) {
+    public UpdateUserCommand toCommandFromResource(UpdateUserResource resource) {
         return new UpdateUserCommand(
-                id,
+                resource.id(),
+                resource.username(),
+                resource.password(),
                 resource.name(),
                 resource.address(),
                 resource.phone(),
                 resource.email(),
-                resource.imageUrl(),
-                resource.username(),
-                resource.password()
+                resource.imageUrl()
         );
     }
 }
