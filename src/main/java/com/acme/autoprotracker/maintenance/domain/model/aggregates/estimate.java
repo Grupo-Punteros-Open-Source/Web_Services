@@ -12,6 +12,4 @@ public class estimate extends AuditableAbstractAggregateRoot<estimate> {
     private String description;
     private String cost;
 
-    @Embedded
-    private
 }
