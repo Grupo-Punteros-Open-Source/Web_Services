@@ -35,6 +35,14 @@ public class DetailsController {
 
 
 
+    /**
+     * Creates a new detail.
+     *
+     * @param createDetailResource the resource containing the data for the detail to be created
+     * @return the created detail resource
+     * @see CreateDetailResource
+     * @see DetailResource
+     */
     @PostMapping
     public ResponseEntity<DetailResource> createDetail(@RequestBody CreateDetailResource createDetailResource) {
         var createDetailsCommand = CreateDetailCommandFromResourceAssembler.toCommandFromResource(createDetailResource);
@@ -48,7 +56,16 @@ public class DetailsController {
         var detailResource = DetailResourceFromEntityAssembler.toResourceFromEntity(detail.get());
         return new ResponseEntity<>(detailResource, HttpStatus.CREATED);
     }
-    @GetMapping("/{id}")
+
+
+    /**
+     * Gets a detail by its id.
+     *
+     * @param detailId the id of the detail to be retrieved
+     * @return the detail resource with the given id
+     * @see DetailResource
+     */
+    @GetMapping("/{detailId}")
     public ResponseEntity<DetailResource> getDetailById(@PathVariable Long detailId) {
         var getDetailByIdQuery = new GetDetailByIdQuery(detailId);
         var detail = detailQueryService.handle(getDetailByIdQuery);
@@ -58,6 +75,12 @@ public class DetailsController {
     }
 
 
+    /**
+     * Gets all the details.
+     *
+     * @return the list of all the details resources
+     * @see DetailResource
+     */
     @GetMapping
     public ResponseEntity<List<DetailResource>> getAllDetail() {
         var getAllDetailsQuery = new GetAllDetailsQuery();
@@ -66,7 +89,16 @@ public class DetailsController {
         return ResponseEntity.ok(detailResources);
     }
 
-    @PutMapping("/{id}")
+    /**
+     * Updates a detail.
+     *
+     * @param detailId             the id of the detail to be updated
+     * @param updateDetailResource the resource containing the data for the detail to be updated
+     * @return the updated detail resource
+     * @see UpdateDetailResource
+     * @see DetailResource
+     */
+    @PutMapping("/{detailId}")
     public ResponseEntity<DetailResource> updateDetail(@PathVariable Long detailId, @RequestBody UpdateDetailResource updateDetailResource) {
         var updateDetailCommand = UpdateDetailCommandFromResourceAssembler.toCommandFromResource(detailId, updateDetailResource);
         var updatedDetail = detailCommandService.handle(updateDetailCommand);
@@ -77,7 +109,14 @@ public class DetailsController {
         return ResponseEntity.ok(detailResource);
     }
 
-    @DeleteMapping("/{id}")
+
+    /**
+     * Deletes a detail.
+     *
+     * @param detailId the id of the detail to be deleted
+     * @return Deletion confirmation message
+     */
+    @DeleteMapping("/{detailId}")
     public ResponseEntity<?> deleteDetail(@PathVariable Long detailId) {
         var deleteDetailCommand = new DeleteDetailCommand(detailId);
         detailCommandService.handle(deleteDetailCommand);
