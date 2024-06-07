@@ -44,8 +44,8 @@ public class UserCommandServiceImpl implements UserCommandService {
             User user = userOptional.get();
             UserData userData = new UserData(command.name(), command.address(), command.phone(), command.email(), command.imageUrl());
             UserAuthentication userAuthentication = new UserAuthentication(command.username(), command.password());
-            user.setUserData(userData);
             user.setUserAuthentication(userAuthentication);
+            user.setUserData(userData);
             userRepository.save(user);
         }
         return userOptional;

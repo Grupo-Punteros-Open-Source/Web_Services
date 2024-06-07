@@ -8,9 +8,7 @@ public record UserData(String name, String address, String phone, String email, 
         this(null, null, null, null, null);
     }
 
-    public UserData(String name, String address, String phone, String email) {
-        this(name, address, phone, email, null);
-    }
+
 
     public String getUserData() {
         return String.format("Name: %s, Address: %s, Phone: %s, Email: %s, ImageUrl: %s", name, address, phone, email, imageUrl);
