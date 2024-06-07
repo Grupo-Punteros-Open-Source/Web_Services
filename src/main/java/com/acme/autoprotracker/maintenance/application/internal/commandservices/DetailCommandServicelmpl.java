@@ -33,8 +33,6 @@ public class DetailCommandServicelmpl implements DetailCommandService {
 
     @Override
     public Optional<Detail> handle(UpdateDetailCommand command) {
-        if (detailRepository.existsByMaintanceIdAndIdIsNot(command.maintanceId(), command.id()))
-            throw new IllegalArgumentException("Detail with same maintanceId already exists");
         var result = detailRepository.findById(command.id());
         if (result.isEmpty()) throw new IllegalArgumentException("Detail does not exist");
         var detailToUpdate = result.get();

@@ -8,5 +8,5 @@ import java.util.Optional;
 public interface DetailRepository extends JpaRepository <Detail,Long>{
     Optional<Detail> findByMaintanceId(Long id);
     boolean existsByMaintanceId(Long id);
-    boolean existsByMaintanceIdAndIdIsNot(Long maintenceId, Long id);
+
 }
