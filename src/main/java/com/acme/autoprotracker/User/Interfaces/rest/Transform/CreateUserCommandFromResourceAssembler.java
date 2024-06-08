@@ -4,10 +4,10 @@ import com.acme.autoprotracker.User.Domain.Model.Commands.CreateUserCommand;
 import com.acme.autoprotracker.User.Interfaces.rest.Resources.CreateUserResource;
 import org.springframework.stereotype.Component;
 
-@Component
+
 public class CreateUserCommandFromResourceAssembler {
 
-    public CreateUserCommand toCommandFromResource(CreateUserResource resource) {
+    public static CreateUserCommand toCommandFromResource(CreateUserResource resource) {
         return new CreateUserCommand(
                 resource.name(),
                 resource.address(),

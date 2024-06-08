@@ -1,9 +1,10 @@
 package com.acme.autoprotracker.User.Application.internal.queryServices;
 
 import com.acme.autoprotracker.User.Domain.Model.Aggregates.User;
-import com.acme.autoprotracker.User.Infrastructure.persistence.jpa.repositories.UserRepository;
+import com.acme.autoprotracker.User.Domain.Model.Queries.GetAllUsersQuery;
+import com.acme.autoprotracker.User.Domain.Model.Queries.GetUserByIdQuery;
 import com.acme.autoprotracker.User.Domain.Services.UserQueryService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.acme.autoprotracker.User.Infrastructure.persistence.jpa.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,18 +15,17 @@ public class UserQueryServiceImpl implements UserQueryService {
 
     private final UserRepository userRepository;
 
-    @Autowired
     public UserQueryServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
+    public Optional<User> handle(GetUserByIdQuery query) {
+        return userRepository.findById(query.userId());
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public List<User> handle(GetAllUsersQuery query) {
         return userRepository.findAll();
     }
 }

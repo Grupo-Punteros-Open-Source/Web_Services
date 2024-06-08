@@ -1,10 +1,7 @@
 package com.acme.autoprotracker.User.Application.internal.commandServices;
-
 import com.acme.autoprotracker.User.Domain.Model.Aggregates.User;
 import com.acme.autoprotracker.User.Domain.Model.Commands.CreateUserCommand;
 import com.acme.autoprotracker.User.Domain.Model.Commands.UpdateUserCommand;
-import com.acme.autoprotracker.User.Domain.Model.ValueObjects.UserAuthentication;
-import com.acme.autoprotracker.User.Domain.Model.ValueObjects.UserData;
 import com.acme.autoprotracker.User.Infrastructure.persistence.jpa.repositories.UserRepository;
 import com.acme.autoprotracker.User.Domain.Services.UserCommandService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,30 +21,34 @@ public class UserCommandServiceImpl implements UserCommandService {
 
     @Override
     public Long handle(CreateUserCommand command) {
-        if (command.name() == null || command.name().isBlank()) {
-            throw new IllegalArgumentException("Name must not be null or blank");
+
+        User user = new User(command);
+        try {
+            userRepository.save(user);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error while saving user: " + e.getMessage());
         }
-        UserData userData = new UserData(command.name(), command.address(), command.phone(), command.email(), command.imageUrl());
-        UserAuthentication userAuthentication = new UserAuthentication(command.username(), command.password());
-        User user = new User(userData, userAuthentication);
-        userRepository.save(user);
         return user.getId();
     }
 
     @Override
     public Optional<User> handle(UpdateUserCommand command) {
-        if (command.name() == null || command.name().isBlank()) {
-            throw new IllegalArgumentException("Name must not be null or blank");
+        var result = userRepository.findById(command.id());
+        if (result.isEmpty()) throw new IllegalArgumentException("User does not exist");
+        var userToUpdate = result.get();
+        try {
+            var updatedUser = userRepository.save(userToUpdate.update(
+                    command.name(),
+                    command.address(),
+                    command.phone(),
+                    command.email(),
+                    command.imageUrl(),
+                    command.username(),
+                    command.password()
+            ));
+            return Optional.of(updatedUser);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error while updating user: " + e.getMessage());
         }
-        Optional<User> userOptional = userRepository.findById(command.id());
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            UserData userData = new UserData(command.name(), command.address(), command.phone(), command.email(), command.imageUrl());
-            UserAuthentication userAuthentication = new UserAuthentication(command.username(), command.password());
-            user.setUserData(userData);
-            user.setUserAuthentication(userAuthentication);
-            userRepository.save(user);
-        }
-        return userOptional;
     }
 }
