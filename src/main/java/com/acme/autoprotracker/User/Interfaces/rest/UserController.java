@@ -51,7 +51,7 @@ public class UserController {
 
     @PutMapping("/{userId}")
     public ResponseEntity<UserResource> updateUser(@RequestBody UpdateUserResource updateUserResource, @PathVariable Long userId) {
-        var updateUserCommand = updateUserCommandFromResourceAssembler.toCommandFromResource(updateUserResource);
+        var updateUserCommand = updateUserCommandFromResourceAssembler.toCommandFromResource(updateUserResource, userId);
         var user = userCommandService.handle(updateUserCommand);
         if (user.isEmpty()) {
             return ResponseEntity.badRequest().build();
@@ -79,3 +79,4 @@ public class UserController {
         return ResponseEntity.ok(resource);
     }
 }
+

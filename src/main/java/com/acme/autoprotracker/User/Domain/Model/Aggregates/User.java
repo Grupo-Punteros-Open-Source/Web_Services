@@ -16,8 +16,8 @@ public class User {
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "username", column = @Column(name = "user_username")),
-            @AttributeOverride(name = "password", column = @Column(name = "user_password"))})
+            @AttributeOverride(name = "username", column = @Column(name = "username")),
+            @AttributeOverride(name = "password", column = @Column(name = "password"))})
     private UserAuthentication userAuthentication;
     protected User() {
     }
@@ -50,4 +50,5 @@ public class User {
     public void setUserAuthentication(UserAuthentication userAuthentication) {
         this.userAuthentication = userAuthentication;
     }
+
 }
