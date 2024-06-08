@@ -33,7 +33,7 @@ public class VehiclesController {
 
 
     /**
-     * Creates a new vehcile.
+     * Creates a new vehicle.
      *
      * @param createVehicleResource the resource containing the data for the vehicle to be created
      * @return the created vehicle resource
