@@ -1,103 +1,54 @@
 package com.acme.autoprotracker.User.Domain.Model.Aggregates;
 
-import com.acme.autoprotracker.User.Domain.Model.Commands.CreateUserCommand;
-
+import com.acme.autoprotracker.User.Domain.Model.ValueObjects.UserAuthentication;
+import com.acme.autoprotracker.User.Domain.Model.ValueObjects.UserData;
 import jakarta.persistence.*;
-import lombok.Getter;
 
-@Getter
 @Entity
-public class User  {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Embedded
+    private UserData userData;
 
-    @Column(name="name")
-    private String name;
-
-    @Column(name="address")
-    private String address;
-
-    @Column(name="phone")
-    private String phone;
-
-    @Column(name="email")
-    private String email;
-
-    @Column(name="image_Url")
-    private String imageUrl;
-
-    @Column(name="username")
-    private String username;
-
-    @Column(name="password")
-    private String password;
-
-    public User() {
-        this.name = "default";
-        this.address = "default";
-        this.phone = "default";
-        this.email = "default";
-        this.imageUrl = "default";
-        this.username = "default";
-        this.password = "default";
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "username", column = @Column(name = "username")),
+            @AttributeOverride(name = "password", column = @Column(name = "password"))})
+    private UserAuthentication userAuthentication;
+    protected User() {
+    }
+    public User(UserData userData, UserAuthentication userAuthentication) {
+        this.userData = userData;
+        this.userAuthentication = userAuthentication;
     }
 
-    public User(CreateUserCommand command) {
-        this();
-        this.name = command.name();
-        this.address = command.address();
-        this.phone = command.phone();
-        this.email = command.email();
-        this.imageUrl = command.imageUrl();
-        this.username = command.username();
-        this.password = command.password();
-    }
-
-    public User update(String name,String address,String phone, String email, String imageUrl,String username, String password) {
-        this.name = name;
-        this.address = address;
-        this.phone = phone;
-        this.email = email;
-        this.imageUrl = imageUrl;
-        this.username = username;
-        this.password = password;
-        return this;
-    }
-
-
-
+    // Getters and Setters
     public Long getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getAddress() {
-        return address;
+    public UserData getUserData() {
+        return userData;
     }
 
-    public String getPhone() {
-        return phone;
+    public void setUserData(UserData userData) {
+        this.userData = userData;
     }
 
-    public String getEmail() {
-        return email;
+    public UserAuthentication getUserAuthentication() {
+        return userAuthentication;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public void setUserAuthentication(UserAuthentication userAuthentication) {
+        this.userAuthentication = userAuthentication;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
 }
