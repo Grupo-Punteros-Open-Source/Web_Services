@@ -4,10 +4,10 @@ import com.acme.autoprotracker.User.Domain.Model.Commands.UpdateUserCommand;
 import com.acme.autoprotracker.User.Interfaces.rest.Resources.UpdateUserResource;
 import org.springframework.stereotype.Component;
 
-@Component
+
 public class UpdateUserCommandFromResourceAssembler {
 
-    public UpdateUserCommand toCommandFromResource(UpdateUserResource resource, Long id){
+    public static UpdateUserCommand toCommandFromResource(UpdateUserResource resource, Long id) {
         return new UpdateUserCommand(
                 id,
                 resource.name(),
