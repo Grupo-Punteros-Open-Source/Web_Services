@@ -2,8 +2,6 @@ package com.acme.autoprotracker.User.Interfaces.rest.Transform;
 
 import com.acme.autoprotracker.User.Domain.Model.Commands.CreateUserCommand;
 import com.acme.autoprotracker.User.Interfaces.rest.Resources.CreateUserResource;
-import org.springframework.stereotype.Component;
-
 
 public class CreateUserCommandFromResourceAssembler {
 
