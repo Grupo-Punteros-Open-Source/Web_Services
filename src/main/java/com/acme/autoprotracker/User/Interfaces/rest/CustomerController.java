@@ -1,34 +1,36 @@
 package com.acme.autoprotracker.User.Interfaces.rest;
 
-import org.springframework.http.HttpStatus;
-import com.acme.autoprotracker.User.Domain.Model.Queries.GetNotificationByIdQuery;
-import com.acme.autoprotracker.User.Domain.Model.Queries.GetAllNotificationsQuery;
 import com.acme.autoprotracker.User.Domain.Model.Commands.DeleteNotificationCommand;
+import com.acme.autoprotracker.User.Domain.Model.Queries.GetAllNotificationsQuery;
+import com.acme.autoprotracker.User.Domain.Model.Queries.GetNotificationByIdQuery;
+import com.acme.autoprotracker.User.Domain.Services.CustomerCommandService;
+import com.acme.autoprotracker.User.Domain.Services.CustomerQueryService;
 import com.acme.autoprotracker.User.Domain.Services.NotificationCommandService;
 import com.acme.autoprotracker.User.Domain.Services.NotificationQueryService;
 import com.acme.autoprotracker.User.Interfaces.rest.Resources.CreateNotificationResource;
-import com.acme.autoprotracker.User.Interfaces.rest.Resources.UpdateNotificationResource;
 import com.acme.autoprotracker.User.Interfaces.rest.Resources.NotificationResource;
+import com.acme.autoprotracker.User.Interfaces.rest.Resources.UpdateNotificationResource;
 import com.acme.autoprotracker.User.Interfaces.rest.Transform.CreateNotificationCommandFromResourceAssembler;
-import com.acme.autoprotracker.User.Interfaces.rest.Transform.UpdateNotificationCommandFromResourceAssembler;
 import com.acme.autoprotracker.User.Interfaces.rest.Transform.NotificationResourceFromEntityAssembler;
+import com.acme.autoprotracker.User.Interfaces.rest.Transform.UpdateNotificationCommandFromResourceAssembler;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/v1/notifications", produces = "application/json")
-@Tag(name = "Notifications", description = "Notification Management Endpoints")
-public class NotificationController {
+@RequestMapping(value = "/api/v1/customer", produces = "application/json")
+@Tag(name = "Customer", description = "Customer Management Endpoints")
+public class CustomerController {
 
-    private final NotificationCommandService notificationCommandService;
-    private final NotificationQueryService notificationQueryService;
+    private final CustomerCommandService customerCommandService;
+    private final CustomerQueryService customerQueryService;
 
-    public NotificationController(NotificationCommandService notificationCommandService, NotificationQueryService notificationQueryService) {
-        this.notificationCommandService = notificationCommandService;
-        this.notificationQueryService = notificationQueryService;
+    public CustomerController(CustomerCommandService customerCommandService, CustomerQueryService customerQueryService) {
+        this.customerCommandService = customerCommandService;
+        this.customerQueryService = customerQueryService;
     }
 
     @PostMapping

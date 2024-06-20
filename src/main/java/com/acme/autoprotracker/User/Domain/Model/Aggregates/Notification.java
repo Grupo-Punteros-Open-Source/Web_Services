@@ -1,9 +1,9 @@
-package com.acme.autoprotracker.User.Domain.Model.Entities;
+package com.acme.autoprotracker.User.Domain.Model.Aggregates;
 
 import jakarta.persistence.*;
-import com.acme.autoprotracker.User.Domain.Model.Aggregates.User;
 import com.acme.autoprotracker.User.Domain.Model.Commands.CreateNotificationCommand;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Entity
@@ -13,9 +13,11 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name="user_id")
-    private User user;
+    /*Long por User*/
+    /*@ManyToOne
+    @JoinColumn(name="user_id")*/
+    @Column(name="user_id")
+    private Long user;
 
     @Column(name="type")
     private String type;
@@ -29,6 +31,7 @@ public class Notification {
     @Column(name="timestamp")
     private String timestamp;
 
+    @Setter
     @Column(name="is_read")
     private Boolean isRead;
 
@@ -40,19 +43,19 @@ public class Notification {
         this.timestamp = "default";
         this.isRead = false;
     }
-
-    public Notification(CreateNotificationCommand command, User user) {
+    /*Long por User*/
+    public Notification(CreateNotificationCommand command, Long userId) {
         this();
-        this.user = user;
+        this.user = userId;
         this.type = command.type();
         this.title = command.title();
         this.message = command.message();
         this.timestamp = command.timestamp();
         this.isRead = command.read();
     }
-
-    public Notification update(User user, String type, String title, String message, String timestamp, Boolean isRead) {
-        this.user = user;
+    /*Long por User*/
+    public Notification update(Long userId, String type, String title, String message, String timestamp, Boolean isRead) {
+        this.user = userId;
         this.type = type;
         this.title = title;
         this.message = message;
@@ -65,13 +68,14 @@ public class Notification {
         return id;
     }
 
-    public User getUser() {
+    /*Long por User*/
+    public Long getUser() {
         return user;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+    /*Long por User*/
+    public void setUser(Long userId) {
+        this.user = userId;}
 
     public String getType() {
         return type;
@@ -93,7 +97,4 @@ public class Notification {
         return isRead;
     }
 
-    public void setIsRead(Boolean isRead) {
-        this.isRead = isRead;
-    }
 }

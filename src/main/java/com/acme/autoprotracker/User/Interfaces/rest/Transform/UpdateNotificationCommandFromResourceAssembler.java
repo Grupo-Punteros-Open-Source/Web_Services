@@ -8,7 +8,6 @@ public class UpdateNotificationCommandFromResourceAssembler {
     public static UpdateNotificationCommand toCommandFromResource(UpdateNotificationResource resource, Long id) {
         return new UpdateNotificationCommand(
                 id,
-                resource.userId(),
                 resource.type(),
                 resource.title(),
                 resource.message(),

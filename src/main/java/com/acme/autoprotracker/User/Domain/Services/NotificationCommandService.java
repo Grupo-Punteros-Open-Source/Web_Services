@@ -1,6 +1,6 @@
 package com.acme.autoprotracker.User.Domain.Services;
 
-import com.acme.autoprotracker.User.Domain.Model.Entities.Notification;
+import com.acme.autoprotracker.User.Domain.Model.Aggregates.Notification;
 import com.acme.autoprotracker.User.Domain.Model.Commands.CreateNotificationCommand;
 import com.acme.autoprotracker.User.Domain.Model.Commands.UpdateNotificationCommand;
 import com.acme.autoprotracker.User.Domain.Model.Commands.DeleteNotificationCommand;
