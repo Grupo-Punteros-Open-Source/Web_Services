@@ -121,3 +121,9 @@ public class TokenServiceImpl implements BearerTokenService {
     private String extractTokenFrom(String authorizationParameter) {
         return authorizationParameter.substring(TOKEN_BEGIN_INDEX);
     }
+
+    private String getAuthorizationParameterFrom(HttpServletRequest request) {
+        return request.getHeader(AUTHORIZATION_PARAMETER_NAME);
+    }
+
+}
