@@ -10,6 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface MaintanceRepository extends JpaRepository<Maintance,Long> {
-    Optional<Main> findByVehicleId(Long vehicleId);
+    Optional<Maintance> findByVehicleId(Long vehicleId);
     boolean existsByVehicleId(Long vehicleId);
 }

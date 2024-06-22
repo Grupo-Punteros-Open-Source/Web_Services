@@ -3,10 +3,7 @@ package com.acme.autoprotracker.maintenance.interfaces.rest;
 
 import com.acme.autoprotracker.maintenance.domain.model.commands.DeleteMaintanceCommand;
 import com.acme.autoprotracker.maintenance.domain.model.commands.DeleteVehicleCommand;
-import com.acme.autoprotracker.maintenance.domain.model.queries.GetAllMaintanceQuery;
-import com.acme.autoprotracker.maintenance.domain.model.queries.GetAllVehiclesQuery;
-import com.acme.autoprotracker.maintenance.domain.model.queries.GetMaintanceByIdQuery;
-import com.acme.autoprotracker.maintenance.domain.model.queries.GetVehicleByIdQuery;
+import com.acme.autoprotracker.maintenance.domain.model.queries.*;
 import com.acme.autoprotracker.maintenance.domain.services.MaintanceCommandService;
 import com.acme.autoprotracker.maintenance.domain.services.MaintanceQueryService;
 import com.acme.autoprotracker.maintenance.interfaces.rest.resources.*;
@@ -72,6 +69,22 @@ public class MaintanceController {
         return ResponseEntity.ok(maintenanceResource);
     }
 
+
+    /**
+     * Gets a maintance by its name.
+     *
+     * @param vehicleId the vehicleId of the maintance to be retrieved
+     * @return the product resource with the given name
+     * @see MaintanceResource
+     */
+    @GetMapping("/getBy/{vehicleId}")
+    public ResponseEntity<MaintanceResource> getMaintanceByVehicleId(@PathVariable Long vehicleId) {
+        var getMaintanceByVehicleIdQuery = new GetMaintanceByVehicleIdQuery(vehicleId);
+        var maintance = maintanceQueryService.handle(getMaintanceByVehicleIdQuery);
+        if (maintance.isEmpty()) return ResponseEntity.badRequest().build();
+        var maintanceResource = MaintanceResourceFromEntityAssembler.toResourceFromEntity(maintance.get());
+        return ResponseEntity.ok(maintanceResource);
+    }
 
     /**
      * Gets all the maintenances.

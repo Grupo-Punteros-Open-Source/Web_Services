@@ -3,6 +3,7 @@ package com.acme.autoprotracker.maintenance.application.internal.queryservices;
 import com.acme.autoprotracker.maintenance.domain.model.aggregates.Maintance;
 import com.acme.autoprotracker.maintenance.domain.model.queries.GetAllMaintanceQuery;
 import com.acme.autoprotracker.maintenance.domain.model.queries.GetMaintanceByIdQuery;
+import com.acme.autoprotracker.maintenance.domain.model.queries.GetMaintanceByVehicleIdQuery;
 import com.acme.autoprotracker.maintenance.domain.services.MaintanceQueryService;
 import com.acme.autoprotracker.maintenance.infrastructure.persistence.jpa.repositories.MaintanceRepository;
 import org.springframework.stereotype.Service;
@@ -25,5 +26,9 @@ public class MaintanceQueryServicelmpl implements MaintanceQueryService {
         return maintanceRepository.findAll();
     }
 
+    @Override
+    public Optional<Maintance> handle(GetMaintanceByVehicleIdQuery query) {
+        return maintanceRepository.findByVehicleId(query.vehicleId());
+    }
 
 }
