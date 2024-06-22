@@ -21,8 +21,8 @@ public class AdvertisingCommandServicelmpl implements AdvertisingCommandService 
 
     @Override
     public Long handle(CreateAdvertisingCommand command) {
-        if (advertisingRepository.existsByName(command.name())) {
-            throw new IllegalArgumentException("Advertising with same name already exists");
+        if (advertisingRepository.existsByComName(command.comName())) {
+            throw new IllegalArgumentException("Advertising with same company name already exists");
         }
         var advertising = new Advertising(command);
         try {
@@ -39,7 +39,7 @@ public class AdvertisingCommandServicelmpl implements AdvertisingCommandService 
         if (result.isEmpty()) throw new IllegalArgumentException("Advertising does not exist");
         var advertisingToUpdate = result.get();
         try {
-            var advertisingUpdated = advertisingRepository.save(advertisingToUpdate.updateAdvertising(command.name(), command.image_url(), command.slogan(), command.message(), command.workshopId()));
+            var advertisingUpdated = advertisingRepository.save(advertisingToUpdate.updateAdvertising(command.comName(),command.comImage(), command.workshopId(),command.imageUrl(), command.slogan(), command.priceMsg(), command.disMsg(), command.repairMsg()));
             return Optional.of(advertisingUpdated);
         } catch (Exception e) {
             throw new IllegalArgumentException("Error while updating advertising: " + e.getMessage());

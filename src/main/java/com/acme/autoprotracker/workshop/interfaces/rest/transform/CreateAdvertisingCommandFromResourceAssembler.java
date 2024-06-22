@@ -7,6 +7,6 @@ import com.acme.autoprotracker.workshop.interfaces.rest.resources.CreateProductR
 
 public class CreateAdvertisingCommandFromResourceAssembler {
     public static CreateAdvertisingCommand toCommandFromResource(CreateAdvertisingResource resource) {
-        return new CreateAdvertisingCommand(resource.name(), resource.image_url(),resource.slogan(), resource.message(), resource.workshopId());
+        return new CreateAdvertisingCommand(resource.comName(), resource.comImage(), resource.workshopId(), resource.imageUrl(), resource.slogan(), resource.priceMsg(), resource.disMsg(), resource.repairMsg());
     }
 }

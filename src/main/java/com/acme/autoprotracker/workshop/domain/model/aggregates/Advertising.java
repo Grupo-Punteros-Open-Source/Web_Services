@@ -19,54 +19,73 @@ public class Advertising {
     private Long id;
 
     @Getter
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "comName", nullable = false)
+    private String comName;
 
-    @Getter@URL
-    @Column (name = "imageUrl", nullable = false)
-    private String image_url;
+    @URL @Getter
+    @Column(name = "comImage", nullable = false)
+    private String comImage;
 
-    @Getter
-    @Column(name = "slogan", nullable = false)
-    private String slogan;
-    @Getter
-    @Column(name = "message", nullable = false)
-    private String message;
-
-    @Getter
-    @Column(name = "workshop_id", nullable = false)
+    @Column(name = "workshopId", nullable = false) @Getter
     private Long workshopId;
 
-    public Advertising() {
-        this.name = Strings.EMPTY;
-        this.image_url = Strings.EMPTY ;
-        this.slogan = Strings.EMPTY ;
-        this.message = Strings.EMPTY;;
-        this.workshopId = 0L;
-    }
+    @URL @Getter
+    @Column(name = "imageUrl", nullable = false)
+    private String imageUrl;
 
-    public Advertising(String name, String image_url, String slogan, String message, Long workshopId) {
-        this.name = name;
-        this.image_url = image_url;
-        this.slogan = slogan;
-        this.message = message;
+    @Column(name = "slogan", nullable = false) @Getter
+    private String slogan;
+
+    @Column(name = "priceMsg", nullable = false) @Getter
+    private String priceMsg;
+
+    @Column(name = "disMsg", nullable = false) @Getter
+    private String disMsg;
+
+    @Column(name = "repairMsg", nullable = false) @Getter
+    private String repairMsg;
+
+    public Advertising() {
+        this.comName = Strings.EMPTY;
+        this.comImage = Strings.EMPTY;
+        this.workshopId = 0L;
+        this.imageUrl = Strings.EMPTY;
+        this.slogan = Strings.EMPTY;
+        this.priceMsg = Strings.EMPTY;
+        this.disMsg = Strings.EMPTY;
+        this.repairMsg = Strings.EMPTY;
+    }
+    public Advertising(String comName, String comImage, Long workshopId, String imageUrl, String slogan, String priceMsg, String disMsg, String repairMsg) {
+        this.comName = comName;
+        this.comImage = comImage;
         this.workshopId = workshopId;
+        this.imageUrl = imageUrl;
+        this.slogan = slogan;
+        this.priceMsg = priceMsg;
+        this.disMsg = disMsg;
+        this.repairMsg = repairMsg;
     }
 
     public Advertising(CreateAdvertisingCommand command){
         this();
-        this.name = command.name();
-        this.image_url = command.image_url();
-        this.slogan = command.slogan();
-        this.message = command.message();
+        this.comName = command.comName();
+        this.comImage = command.comImage();
         this.workshopId = command.workshopId();
+        this.imageUrl = command.imageUrl();
+        this.slogan = command.slogan();
+        this.priceMsg = command.priceMsg();
+        this.disMsg = command.disMsg();
+        this.repairMsg = command.repairMsg();
     }
-    public Advertising updateAdvertising(String name, String image_url, String slogan, String message, Long workshopId) {
-        this.name = name;
-        this.image_url = image_url;
-        this.slogan = slogan;
-        this.message = message;
+    public Advertising updateAdvertising(String comName, String comImage, Long workshopId, String imageUrl, String slogan, String priceMsg, String disMsg, String repairMsg) {
+        this.comName = comName;
+        this.comImage = comImage;
         this.workshopId = workshopId;
+        this.imageUrl = imageUrl;
+        this.slogan = slogan;
+        this.priceMsg = priceMsg;
+        this.disMsg = disMsg;
+        this.repairMsg = repairMsg;
         return this;
     }
 

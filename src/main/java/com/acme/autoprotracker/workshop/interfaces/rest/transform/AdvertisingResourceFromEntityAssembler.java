@@ -5,6 +5,6 @@ import com.acme.autoprotracker.workshop.interfaces.rest.resources.AdvertisingRes
 
 public class AdvertisingResourceFromEntityAssembler {
     public static AdvertisingResource toResourceFromEntity(Advertising entity) {
-        return new AdvertisingResource(entity.getId(), entity.getName(), entity.getImage_url(), entity.getSlogan(), entity.getMessage(), entity.getWorkshopId());
+        return new AdvertisingResource(entity.getId(), entity.getComName(), entity.getComImage(), entity.getWorkshopId(), entity.getImageUrl(), entity.getSlogan(), entity.getPriceMsg(), entity.getDisMsg(), entity.getRepairMsg());
     }
 }
