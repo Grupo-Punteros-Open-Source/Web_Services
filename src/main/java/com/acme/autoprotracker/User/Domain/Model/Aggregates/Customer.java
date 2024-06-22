@@ -14,8 +14,6 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id")
-    private Long userId;
 
     /*@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)*/
@@ -88,12 +86,12 @@ public class Customer {
 
     /*Long por User*/
     public Long getUserId() {
-        return userId;
+        return user;
     }
 
     /*Long por User*/
     public void setUserId(Long userId) {
-        this.userId = userId;
+        this.user = userId;
     }
 
     public Long getUser() {

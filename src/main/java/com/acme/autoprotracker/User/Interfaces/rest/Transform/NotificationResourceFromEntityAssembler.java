@@ -1,6 +1,6 @@
 package com.acme.autoprotracker.User.Interfaces.rest.Transform;
 
-import com.acme.autoprotracker.User.Domain.Model.Aggregates.Notification;
+import com.acme.autoprotracker.User.Domain.Model.Entity.Notification;
 import com.acme.autoprotracker.User.Interfaces.rest.Resources.NotificationResource;
 
 public class NotificationResourceFromEntityAssembler {

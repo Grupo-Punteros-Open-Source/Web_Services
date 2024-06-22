@@ -1,18 +1,12 @@
 package com.acme.autoprotracker.User.Interfaces.rest;
 
-import com.acme.autoprotracker.User.Domain.Model.Commands.DeleteNotificationCommand;
-import com.acme.autoprotracker.User.Domain.Model.Queries.GetAllNotificationsQuery;
-import com.acme.autoprotracker.User.Domain.Model.Queries.GetNotificationByIdQuery;
+import com.acme.autoprotracker.User.Domain.Model.Commands.DeleteCustomerCommand;
+import com.acme.autoprotracker.User.Domain.Model.Queries.GetAllCustomerQuery;
+import com.acme.autoprotracker.User.Domain.Model.Queries.GetCustomerByIdQuery;
 import com.acme.autoprotracker.User.Domain.Services.CustomerCommandService;
 import com.acme.autoprotracker.User.Domain.Services.CustomerQueryService;
-import com.acme.autoprotracker.User.Domain.Services.NotificationCommandService;
-import com.acme.autoprotracker.User.Domain.Services.NotificationQueryService;
-import com.acme.autoprotracker.User.Interfaces.rest.Resources.CreateNotificationResource;
-import com.acme.autoprotracker.User.Interfaces.rest.Resources.NotificationResource;
-import com.acme.autoprotracker.User.Interfaces.rest.Resources.UpdateNotificationResource;
-import com.acme.autoprotracker.User.Interfaces.rest.Transform.CreateNotificationCommandFromResourceAssembler;
-import com.acme.autoprotracker.User.Interfaces.rest.Transform.NotificationResourceFromEntityAssembler;
-import com.acme.autoprotracker.User.Interfaces.rest.Transform.UpdateNotificationCommandFromResourceAssembler;
+import com.acme.autoprotracker.User.Interfaces.rest.Resources.*;
+import com.acme.autoprotracker.User.Interfaces.rest.Transform.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,51 +28,51 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity<NotificationResource> createNotification(@RequestBody CreateNotificationResource createNotificationResource) {
-        var createNotificationCommand = CreateNotificationCommandFromResourceAssembler.toCommandFromResource(createNotificationResource);
-        var notificationId = notificationCommandService.handle(createNotificationCommand);
-        if (notificationId == null) {
+    public ResponseEntity<CustomerResources> createCustomer(@RequestBody CreateCustomerResource createCustomerResource) {
+        var createCustomerCommand = CreateCustomerCommandFromResourceAssembler.toCommandFromResource(createCustomerResource);
+        var customerId = customerCommandService.handle(createCustomerCommand);
+        if (customerId == null) {
             return ResponseEntity.badRequest().build();
         }
-        var getNotificationByIdQuery = new GetNotificationByIdQuery(notificationId);
-        var notification = notificationQueryService.handle(getNotificationByIdQuery);
-        if (notification.isEmpty()) return ResponseEntity.badRequest().build();
-        var notificationResource = NotificationResourceFromEntityAssembler.toResourceFromEntity(notification.get());
-        return new ResponseEntity<>(notificationResource, HttpStatus.CREATED);
+        var getCustomerByIdQuery = new GetCustomerByIdQuery(customerId);
+        var customer = customerQueryService.handle(getCustomerByIdQuery);
+        if (customer.isEmpty()) return ResponseEntity.badRequest().build();
+        var customerResource = CustomerResourceFromResourceAssembler.toResourceFromEntity(customer.get());
+        return new ResponseEntity<>(customerResource, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{notificationId}")
-    public ResponseEntity<NotificationResource> getNotificationById(@PathVariable Long notificationId) {
-        var getNotificationByIdQuery = new GetNotificationByIdQuery(notificationId);
-        var notification = notificationQueryService.handle(getNotificationByIdQuery);
-        if (notification.isEmpty()) return ResponseEntity.badRequest().build();
-        var notificationResource = NotificationResourceFromEntityAssembler.toResourceFromEntity(notification.get());
-        return ResponseEntity.ok(notificationResource);
+    @GetMapping("/{customerId}")
+    public ResponseEntity<CustomerResources> getCustomerById(@PathVariable Long customerId) {
+        var getCustomerByIdQuery = new GetCustomerByIdQuery(customerId);
+        var customer = customerQueryService.handle(getCustomerByIdQuery);
+        if (customer.isEmpty()) return ResponseEntity.badRequest().build();
+        var customerResource = CustomerResourceFromResourceAssembler.toResourceFromEntity(customer.get());
+        return ResponseEntity.ok(customerResource);
     }
 
     @GetMapping
-    public ResponseEntity<List<NotificationResource>> getAllNotifications() {
-        var getAllNotificationsQuery = new GetAllNotificationsQuery();
-        var notifications = notificationQueryService.handle(getAllNotificationsQuery);
-        var notificationResources = notifications.stream().map(NotificationResourceFromEntityAssembler::toResourceFromEntity).toList();
-        return ResponseEntity.ok(notificationResources);
+    public ResponseEntity<List<CustomerResources>> getAllCustomers() {
+        var getAllCustomersQuery = new GetAllCustomerQuery();
+        var customers = customerQueryService.handle(getAllCustomersQuery);
+        var customerResources = customers.stream().map(CustomerResourceFromResourceAssembler::toResourceFromEntity).toList();
+        return ResponseEntity.ok(customerResources);
     }
 
-    @PutMapping("/{notificationId}")
-    public ResponseEntity<NotificationResource> updateNotification(@PathVariable Long notificationId, @RequestBody UpdateNotificationResource updateNotificationResource) {
-        var updateNotificationCommand = UpdateNotificationCommandFromResourceAssembler.toCommandFromResource(updateNotificationResource, notificationId);
-        var updatedNotification = notificationCommandService.handle(updateNotificationCommand);
-        if (updatedNotification.isEmpty()) {
+    @PutMapping("/{customerId}")
+    public ResponseEntity<CustomerResources> updateCustomer(@PathVariable Long customerId, @RequestBody UpdateCustomerResource updateCustomerResource) {
+        var updateCustomerCommand = UpdateCustomerCommandFromResourceAssembler.toCommandFromResource(updateCustomerResource, customerId);
+        var updatedCustomer = customerCommandService.handle(updateCustomerCommand);
+        if (updatedCustomer.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
-        var notificationResource = NotificationResourceFromEntityAssembler.toResourceFromEntity(updatedNotification.get());
-        return ResponseEntity.ok(notificationResource);
+        var customerResource = CustomerResourceFromResourceAssembler.toResourceFromEntity(updatedCustomer.get());
+        return ResponseEntity.ok(customerResource);
     }
 
-    @DeleteMapping("/{notificationId}")
-    public ResponseEntity<?> deleteNotification(@PathVariable Long notificationId) {
-        var deleteNotificationCommand = new DeleteNotificationCommand(notificationId);
-        notificationCommandService.handle(deleteNotificationCommand);
-        return ResponseEntity.ok("Notification with given id successfully deleted");
+    @DeleteMapping("/{customerId}")
+    public ResponseEntity<?> deleteCustomer(@PathVariable Long customerId) {
+        var deleteCustomerCommand = new DeleteCustomerCommand(customerId);
+        customerCommandService.handle(deleteCustomerCommand);
+        return ResponseEntity.ok("Customer with given id successfully deleted");
     }
 }

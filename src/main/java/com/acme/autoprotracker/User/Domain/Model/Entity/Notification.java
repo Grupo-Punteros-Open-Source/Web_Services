@@ -1,4 +1,4 @@
-package com.acme.autoprotracker.User.Domain.Model.Aggregates;
+package com.acme.autoprotracker.User.Domain.Model.Entity;
 
 import jakarta.persistence.*;
 import com.acme.autoprotracker.User.Domain.Model.Commands.CreateNotificationCommand;

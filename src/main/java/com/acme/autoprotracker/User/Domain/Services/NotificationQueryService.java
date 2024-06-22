@@ -1,6 +1,6 @@
 package com.acme.autoprotracker.User.Domain.Services;
 
-import com.acme.autoprotracker.User.Domain.Model.Aggregates.Notification;
+import com.acme.autoprotracker.User.Domain.Model.Entity.Notification;
 import com.acme.autoprotracker.User.Domain.Model.Queries.GetNotificationByIdQuery;
 import com.acme.autoprotracker.User.Domain.Model.Queries.GetAllNotificationsQuery;
 
