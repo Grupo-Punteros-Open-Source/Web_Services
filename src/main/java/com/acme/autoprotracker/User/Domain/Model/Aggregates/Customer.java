@@ -2,7 +2,7 @@ package com.acme.autoprotracker.User.Domain.Model.Aggregates;
 
 
 import com.acme.autoprotracker.User.Domain.Model.Commands.CreateCustomerCommand;
-import com.acme.autoprotracker.User.Domain.Model.Commands.CreateNotificationCommand;
+import com.acme.autoprotracker.iam.domain.model.aggregates.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,10 +15,9 @@ public class Customer {
     private Long id;
 
 
-    /*@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)*/
-    @Column(name = "user_id")
-    private Long user;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Getter
     @Setter
@@ -54,7 +53,7 @@ public class Customer {
         this.imageUrl = "default";
     }
     /*Long por User*/
-    public Customer(CreateCustomerCommand command, Long userId) {
+    public Customer(CreateCustomerCommand command, User userId) {
         this();
         this.user = userId;
         this.name = command.name();
@@ -64,7 +63,7 @@ public class Customer {
         this.imageUrl = command.imageUrl();
     }
     /*Long por User*/
-    public Customer update(Long userId, String name, String address, String phone, String email, String imageUrl) {
+    public Customer update(User userId, String name, String address, String phone, String email, String imageUrl) {
         this.user = userId;
         this.address = address;
         this.name = name;
@@ -85,21 +84,21 @@ public class Customer {
     }
 
     /*Long por User*/
-    public Long getUserId() {
+    public User getUser() {
         return user;
     }
 
     /*Long por User*/
-    public void setUserId(Long userId) {
+    public void setUser(User userId) {
         this.user = userId;
     }
 
-    public Long getUser() {
+    public User getUserId() {
         return user;
     }
 
     /*Long por User*/
-    public void setUser(Long user) {
+    public void setUserId(User user) {
         this.user = user;
     }
 

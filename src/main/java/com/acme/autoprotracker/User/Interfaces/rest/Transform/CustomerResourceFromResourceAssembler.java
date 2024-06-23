@@ -7,7 +7,7 @@ public class CustomerResourceFromResourceAssembler {
     public static CustomerResources toResourceFromEntity(Customer entity) {
         return new CustomerResources(
                 entity.getId(),
-                entity.getUser(),
+                entity.getUserId().getId(),
                 entity.getName(),
                 entity.getAddress(),
                 entity.getPhone(),

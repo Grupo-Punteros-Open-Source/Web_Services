@@ -1,11 +1,13 @@
 package com.acme.autoprotracker.User.Application.internal.commandServices;
 
+import com.acme.autoprotracker.User.Domain.Exceptions.UserNotFoundException;
 import com.acme.autoprotracker.User.Domain.Model.Entity.Notification;
 import com.acme.autoprotracker.User.Domain.Model.Commands.CreateNotificationCommand;
 import com.acme.autoprotracker.User.Domain.Model.Commands.UpdateNotificationCommand;
 import com.acme.autoprotracker.User.Domain.Model.Commands.DeleteNotificationCommand;
 import com.acme.autoprotracker.User.Infrastructure.persistence.jpa.repositories.NotificationRepository;
 import com.acme.autoprotracker.User.Domain.Services.NotificationCommandService;
+import com.acme.autoprotracker.iam.infrastructure.persistence.jpa.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,20 +17,21 @@ import java.util.Optional;
 public class NotificationCommandServiceImpl implements NotificationCommandService {
 
     private final NotificationRepository notificationRepository;
-   /* private final UserRepository userRepository;*/
+    private final UserRepository userRepository;
 
     @Autowired
-    public NotificationCommandServiceImpl(NotificationRepository notificationRepository/*, UserRepository userRepository*/) {
+    public NotificationCommandServiceImpl(NotificationRepository notificationRepository, UserRepository userRepository) {
         this.notificationRepository = notificationRepository;
-        /*this.userRepository = userRepository;*/
+        this.userRepository = userRepository;
     }
 
     @Override
     public Long handle(CreateNotificationCommand command) {
-        /*var userResult = userRepository.findById(command.userId());
-        var user = userResult.get();*/
+        var userResult = userRepository.findById(command.userId());
+        if (userResult.isEmpty()) throw new UserNotFoundException(command.userId());
+        var user = userResult.get();
         /*1L por user*/
-        Notification notification = new Notification(command, 1L);
+        Notification notification = new Notification(command, user);
         try {
             notificationRepository.save(notification);
         } catch (Exception e) {
@@ -43,13 +46,13 @@ public class NotificationCommandServiceImpl implements NotificationCommandServic
         if (result.isEmpty()) throw new IllegalArgumentException("Notification does not exist");
         var notificationToUpdate = result.get();
 
-        /*var userResult = userRepository.findById(command.userId());
-        if (userResult.isEmpty()) throw new UserNotFoundException(command.userId());
-        var user = userResult.get();*/
+        var userResult = userRepository.findById(command.id());
+        if (userResult.isEmpty()) throw new UserNotFoundException(command.id());
+        var user = userResult.get();
 
         try {
             var updatedNotification = notificationRepository.save(notificationToUpdate.update(
-                    1L,
+                    user,
                     command.type(),
                     command.title(),
                     command.message(),
