@@ -1,7 +1,7 @@
 package com.acme.autoprotracker.User.Domain.Model.Aggregates;
 
-
 import com.acme.autoprotracker.User.Domain.Model.Commands.CreateCustomerCommand;
+import com.acme.autoprotracker.User.Domain.Model.Commands.CreateWorkshopCommand;
 import com.acme.autoprotracker.iam.domain.model.aggregates.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Entity
-public class Customer {
+public class Workshop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -43,7 +43,8 @@ public class Customer {
     @Column(name="image_Url")
     private String imageUrl;
 
-    public Customer() {
+
+    public Workshop() {
         this.user = null;
         this.name = "default";
         this.address = "default";
@@ -52,7 +53,7 @@ public class Customer {
         this.imageUrl = "default";
     }
 
-    public Customer(CreateCustomerCommand command, User userId) {
+    public Workshop(CreateWorkshopCommand command, User userId) {
         this();
         this.user = userId;
         this.name = command.name();
@@ -62,7 +63,7 @@ public class Customer {
         this.imageUrl = command.imageUrl();
     }
 
-    public Customer update(User userId, String name, String address, String phone, String email, String imageUrl) {
+    public Workshop update(User userId, String name, String address, String phone, String email, String imageUrl) {
         this.user = userId;
         this.address = address;
         this.name = name;

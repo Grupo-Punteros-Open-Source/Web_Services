@@ -14,7 +14,6 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    /*Long por User*/
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
@@ -43,7 +42,7 @@ public class Notification {
         this.timestamp = "default";
         this.isRead = false;
     }
-    /*Long por User*/
+
     public Notification(CreateNotificationCommand command, User userId) {
         this();
         this.user = userId;
@@ -53,7 +52,7 @@ public class Notification {
         this.timestamp = command.timestamp();
         this.isRead = command.read();
     }
-    /*Long por User*/
+
     public Notification update(User userId, String type, String title, String message, String timestamp, Boolean isRead) {
         this.user = userId;
         this.type = type;
@@ -73,7 +72,6 @@ public class Notification {
         return user;
     }
 
-    /*Long por User*/
     public void setUser(User userId) {
         this.user = userId;}
 

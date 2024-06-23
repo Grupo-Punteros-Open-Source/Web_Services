@@ -1,32 +1,33 @@
 package com.acme.autoprotracker.User.Application.internal.commandServices;
 
 import com.acme.autoprotracker.User.Domain.Exceptions.UserNotFoundException;
-import com.acme.autoprotracker.User.Domain.Model.Aggregates.Customer;
+import com.acme.autoprotracker.User.Domain.Model.Aggregates.Workshop;
 import com.acme.autoprotracker.User.Domain.Model.Commands.*;
-import com.acme.autoprotracker.User.Domain.Services.CustomerCommandService;
+import com.acme.autoprotracker.User.Domain.Services.WorkshopCommandService;
 import com.acme.autoprotracker.User.Infrastructure.persistence.jpa.repositories.CustomerRepository;
 import com.acme.autoprotracker.User.Infrastructure.persistence.jpa.repositories.WorkshopRepository;
 import com.acme.autoprotracker.iam.infrastructure.persistence.jpa.repositories.UserRepository;
-import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import java.util.Optional;
 
-@Service
-public class  CustomerCommandServiceImpl implements CustomerCommandService {
 
+@Service
+public class WorkshopCommandServiceImpl implements WorkshopCommandService {
+
+    private final WorkshopRepository workshopRepository;
     private final CustomerRepository customerRepository;
     private final UserRepository userRepository;
-    private final WorkshopRepository workshopRepository;
 
     @Autowired
-    public CustomerCommandServiceImpl(CustomerRepository customerRepository, UserRepository userRepository, WorkshopRepository workshopRepository) {
-        this.customerRepository = customerRepository;
-        this.userRepository = userRepository;
+    public WorkshopCommandServiceImpl(WorkshopRepository workshopRepository, UserRepository userRepository, CustomerRepository customerRepository) {
         this.workshopRepository = workshopRepository;
+        this.userRepository = userRepository;
+        this.customerRepository = customerRepository;
     }
 
     @Override
-    public Long handle(CreateCustomerCommand command) {
+    public Long handle(CreateWorkshopCommand command) {
         var userResult = userRepository.findById(command.userId());
         if (userResult.isEmpty()) throw new UserNotFoundException(command.userId());
         var user = userResult.get();
@@ -35,33 +36,32 @@ public class  CustomerCommandServiceImpl implements CustomerCommandService {
         if (existingCustomer.isPresent()) {
             throw new IllegalArgumentException("A customer with the same userId already exists");
         }
-
         var existingWorkshop = workshopRepository.findByUser(user);
         if (existingWorkshop.isPresent()) {
             throw new IllegalArgumentException("A workshop with the same userId already exists");
         }
 
-        Customer customer = new Customer(command, user);
+        Workshop workshop = new Workshop(command, user);
         try {
-            customerRepository.save(customer);
+            workshopRepository.save(workshop);
         } catch (Exception e) {
-            throw new IllegalArgumentException("Error while saving customer: " + e.getMessage());
+            throw new IllegalArgumentException("Error while saving workshop: " + e.getMessage());
         }
-        return customer.getId();
+        return workshop.getId();
     }
 
     @Override
-    public Optional<Customer> handle(UpdateCustomerCommand command) {
-        var result = customerRepository.findById(command.id());
-        if (result.isEmpty()) throw new IllegalArgumentException("Customer does not exist");
-        var customerToUpdate = result.get();
+    public Optional<Workshop> handle(UpdateWorkshopCommand command) {
+        var result = workshopRepository.findById(command.id());
+        if (result.isEmpty()) throw new IllegalArgumentException("Workshop does not exist");
+        var workshopToUpdate = result.get();
 
         var userResult = userRepository.findById(command.id());
         if (userResult.isEmpty()) throw new UserNotFoundException(command.id());
         var user = userResult.get();
 
         try {
-            var updatedCustomer = customerRepository.save(customerToUpdate.update(
+            var updatedWorkshop = workshopRepository.save(workshopToUpdate.update(
                     user,
                     command.name(),
                     command.address(),
@@ -69,21 +69,21 @@ public class  CustomerCommandServiceImpl implements CustomerCommandService {
                     command.email(),
                     command.imageUrl()
             ));
-            return Optional.of(updatedCustomer);
+            return Optional.of(updatedWorkshop);
         } catch (Exception e) {
-            throw new IllegalArgumentException("Error while updating customer: " + e.getMessage());
+            throw new IllegalArgumentException("Error while updating workshop: " + e.getMessage());
         }
     }
 
     @Override
-    public void handle(DeleteCustomerCommand command) {
-        if (!customerRepository.existsById(command.customerId())) {
-            throw new IllegalArgumentException("Customer does not exist");
+    public void handle(DeleteWorkshopCommand command) {
+        if (!workshopRepository.existsById(command.workshopId())) {
+            throw new IllegalArgumentException("Workshop does not exist");
         }
         try {
-            customerRepository.deleteById(command.customerId());
+            workshopRepository.deleteById(command.workshopId());
         } catch (Exception e) {
-            throw new IllegalArgumentException("Error while deleting customer: " + e.getMessage());
+            throw new IllegalArgumentException("Error while deleting workshop: " + e.getMessage());
         }
     }
 }

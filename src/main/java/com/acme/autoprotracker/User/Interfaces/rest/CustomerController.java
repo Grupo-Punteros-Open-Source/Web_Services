@@ -28,7 +28,7 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity<CustomerResources> createCustomer(@RequestBody CreateCustomerResource createCustomerResource) {
+    public ResponseEntity<CustomerResource> createCustomer(@RequestBody CreateCustomerResource createCustomerResource) {
         var createCustomerCommand = CreateCustomerCommandFromResourceAssembler.toCommandFromResource(createCustomerResource);
         var customerId = customerCommandService.handle(createCustomerCommand);
         if (customerId == null) {
@@ -37,35 +37,35 @@ public class CustomerController {
         var getCustomerByIdQuery = new GetCustomerByIdQuery(customerId);
         var customer = customerQueryService.handle(getCustomerByIdQuery);
         if (customer.isEmpty()) return ResponseEntity.badRequest().build();
-        var customerResource = CustomerResourceFromResourceAssembler.toResourceFromEntity(customer.get());
+        var customerResource = CustomerResourceFromEntityAssembler.toResourceFromEntity(customer.get());
         return new ResponseEntity<>(customerResource, HttpStatus.CREATED);
     }
 
     @GetMapping("/{customerId}")
-    public ResponseEntity<CustomerResources> getCustomerById(@PathVariable Long customerId) {
+    public ResponseEntity<CustomerResource> getCustomerById(@PathVariable Long customerId) {
         var getCustomerByIdQuery = new GetCustomerByIdQuery(customerId);
         var customer = customerQueryService.handle(getCustomerByIdQuery);
         if (customer.isEmpty()) return ResponseEntity.badRequest().build();
-        var customerResource = CustomerResourceFromResourceAssembler.toResourceFromEntity(customer.get());
+        var customerResource = CustomerResourceFromEntityAssembler.toResourceFromEntity(customer.get());
         return ResponseEntity.ok(customerResource);
     }
 
     @GetMapping
-    public ResponseEntity<List<CustomerResources>> getAllCustomers() {
+    public ResponseEntity<List<CustomerResource>> getAllCustomers() {
         var getAllCustomersQuery = new GetAllCustomerQuery();
         var customers = customerQueryService.handle(getAllCustomersQuery);
-        var customerResources = customers.stream().map(CustomerResourceFromResourceAssembler::toResourceFromEntity).toList();
+        var customerResources = customers.stream().map(CustomerResourceFromEntityAssembler::toResourceFromEntity).toList();
         return ResponseEntity.ok(customerResources);
     }
 
     @PutMapping("/{customerId}")
-    public ResponseEntity<CustomerResources> updateCustomer(@PathVariable Long customerId, @RequestBody UpdateCustomerResource updateCustomerResource) {
+    public ResponseEntity<CustomerResource> updateCustomer(@PathVariable Long customerId, @RequestBody UpdateCustomerResource updateCustomerResource) {
         var updateCustomerCommand = UpdateCustomerCommandFromResourceAssembler.toCommandFromResource(updateCustomerResource, customerId);
         var updatedCustomer = customerCommandService.handle(updateCustomerCommand);
         if (updatedCustomer.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
-        var customerResource = CustomerResourceFromResourceAssembler.toResourceFromEntity(updatedCustomer.get());
+        var customerResource = CustomerResourceFromEntityAssembler.toResourceFromEntity(updatedCustomer.get());
         return ResponseEntity.ok(customerResource);
     }
 
