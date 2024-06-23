@@ -8,6 +8,7 @@ public class CustomerResourceFromEntityAssembler {
         return new CustomerResource(
                 entity.getId(),
                 entity.getUserId().getId(),
+                entity.getWorkshopId().getId(),
                 entity.getName(),
                 entity.getAddress(),
                 entity.getPhone(),

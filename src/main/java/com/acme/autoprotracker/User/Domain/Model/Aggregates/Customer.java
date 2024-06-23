@@ -18,6 +18,10 @@ public class Customer {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "workshop_id")
+    private Workshop workshop;
+
     @Getter
     @Setter
     @Column(name = "name")
@@ -45,6 +49,7 @@ public class Customer {
 
     public Customer() {
         this.user = null;
+        this.workshop = null;
         this.name = "default";
         this.address = "default";
         this.phone = "default";
@@ -52,9 +57,10 @@ public class Customer {
         this.imageUrl = "default";
     }
 
-    public Customer(CreateCustomerCommand command, User userId) {
+    public Customer(CreateCustomerCommand command, User userId, Workshop workshopId) {
         this();
         this.user = userId;
+        this.workshop = workshopId;
         this.name = command.name();
         this.address = command.address();
         this.phone = command.phone();
@@ -62,8 +68,9 @@ public class Customer {
         this.imageUrl = command.imageUrl();
     }
 
-    public Customer update(User userId, String name, String address, String phone, String email, String imageUrl) {
+    public Customer update(User userId,Workshop workshopid ,String name, String address, String phone, String email, String imageUrl) {
         this.user = userId;
+        this.workshop = workshopid;
         this.address = address;
         this.name = name;
         this.phone = phone;
@@ -96,6 +103,22 @@ public class Customer {
 
     public void setUserId(User user) {
         this.user = user;
+    }
+
+    public Workshop getWorkshop() {
+        return workshop;
+    }
+
+    public void setWorkshop(Workshop workshopId) {
+        this.workshop = workshopId;
+    }
+
+    public Workshop getWorkshopId() {
+        return workshop;
+    }
+
+    public void setWorkshopId(Workshop workshop) {
+        this.workshop = workshop;
     }
 
 }

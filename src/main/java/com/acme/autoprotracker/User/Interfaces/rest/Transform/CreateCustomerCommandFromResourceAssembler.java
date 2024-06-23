@@ -7,6 +7,7 @@ import com.acme.autoprotracker.User.Interfaces.rest.Resources.CreateCustomerReso
 public class CreateCustomerCommandFromResourceAssembler {  public static CreateCustomerCommand toCommandFromResource(CreateCustomerResource resource) {
     return new CreateCustomerCommand(
             resource.userId(),
+            resource.workshopId(),
             resource.name(),
             resource.address(),
             resource.phone(),

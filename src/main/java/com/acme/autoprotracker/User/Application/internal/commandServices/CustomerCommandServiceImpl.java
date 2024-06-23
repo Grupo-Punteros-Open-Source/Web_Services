@@ -31,6 +31,9 @@ public class  CustomerCommandServiceImpl implements CustomerCommandService {
         if (userResult.isEmpty()) throw new UserNotFoundException(command.userId());
         var user = userResult.get();
 
+        var workshopResult = workshopRepository.findById(command.workshopId());
+        var workshop = workshopResult.get();
+
         var existingCustomer = customerRepository.findByUser(user);
         if (existingCustomer.isPresent()) {
             throw new IllegalArgumentException("A customer with the same userId already exists");
@@ -41,7 +44,7 @@ public class  CustomerCommandServiceImpl implements CustomerCommandService {
             throw new IllegalArgumentException("A workshop with the same userId already exists");
         }
 
-        Customer customer = new Customer(command, user);
+        Customer customer = new Customer(command, user, workshop);
         try {
             customerRepository.save(customer);
         } catch (Exception e) {
@@ -60,9 +63,14 @@ public class  CustomerCommandServiceImpl implements CustomerCommandService {
         if (userResult.isEmpty()) throw new UserNotFoundException(command.id());
         var user = userResult.get();
 
+        var workshopResult = workshopRepository.findById(command.id());
+        if (workshopResult.isEmpty()) throw new IllegalArgumentException("Workshop does not exist");
+        var workshop = workshopResult.get();
+
         try {
             var updatedCustomer = customerRepository.save(customerToUpdate.update(
                     user,
+                    workshop,
                     command.name(),
                     command.address(),
                     command.phone(),
