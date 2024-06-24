@@ -1,16 +1,8 @@
 package com.acme.autoprotracker.maintenance.domain.model.aggregates;
 
-import com.acme.autoprotracker.maintenance.domain.model.commands.CreateDetailCommand;
 import com.acme.autoprotracker.maintenance.domain.model.commands.CreateInvoiceCommand;
-import com.acme.autoprotracker.maintenance.domain.model.valueobjects.InvoiceCode;
-import com.acme.autoprotracker.maintenance.domain.model.valueobjects.InvoiceStatus;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
-import org.apache.logging.log4j.util.Strings;
-
-import java.math.BigDecimal;
-import java.util.Date;
 
 @Getter
 @Entity
@@ -21,51 +13,53 @@ public class Invoice {
     private Long id;
 
     @Getter
-    @Column(name = "invoiceCode", nullable = false)
-    private InvoiceCode invoiceCode;
+    @Column(name = "number", nullable = false)
+    private String number;
 
     @Getter
-    @Column(name = "issueDate", nullable = false)
-    private Date issueDate;
+    @Column(name = "issue_date", nullable = false)
+    private String issue_date;
 
     @Getter
     @Column(name = "total", nullable = false)
-    private BigDecimal total;
+    private Long total;
 
     @Getter
-    @Column(name = "invoiceStatus", nullable = false)
-    private InvoiceStatus status;
+    @Column(name = "status", nullable = false)
+    private String status;
 
     @Getter
     @Column(name = "details", nullable = false)
     private String detail;
+
+
     public Invoice() {
-        this.invoiceCode = new InvoiceCode("F0000000");
-        this.issueDate = new Date();
-        this.total = new BigDecimal("0.00") ;
-        this.status = InvoiceStatus.NONE;
-        this.detail = Strings.EMPTY;
+        this.number ="";
+        this.issue_date = "";
+        this.total = 0L;
+        this.status = "";
+        this.detail = "";
     }
 
-    public Invoice(InvoiceCode invoiceCode,Date issueDate, BigDecimal total, InvoiceStatus status, String detail) {
+    public Invoice(String number,String issue_date, Long total, String status, String detail) {
         this();
-        this.invoiceCode = invoiceCode;
-        this.issueDate = issueDate;
+        this.number = number;
+        this.issue_date = issue_date;
         this.total = total;
         this.status = status;
         this.detail = detail;
     }
     public Invoice(CreateInvoiceCommand command){
         this();
-        this.invoiceCode = command.invoiceCode();
-        this.issueDate = command.issueDate();
+        this.number = command.number();
+        this.issue_date = command.issue_date();
         this.total = command.total();
         this.status = command.status();
         this.detail = command.detail();
     }
-    public Invoice updateInvoice(InvoiceCode invoiceCode,Date issueDate, BigDecimal total, InvoiceStatus status, String detail) {
-        this.invoiceCode = invoiceCode;
-        this.issueDate = issueDate;
+    public Invoice updateInvoice(String number,String issue_date, Long total, String status, String detail) {
+        this.number = number;
+        this.issue_date = issue_date;
         this.total = total;
         this.status = status;
         this.detail = detail;
