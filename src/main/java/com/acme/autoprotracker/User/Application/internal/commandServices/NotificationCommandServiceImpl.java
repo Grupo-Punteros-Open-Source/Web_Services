@@ -30,7 +30,7 @@ public class NotificationCommandServiceImpl implements NotificationCommandServic
         var userResult = userRepository.findById(command.userId());
         if (userResult.isEmpty()) throw new UserNotFoundException(command.userId());
         var user = userResult.get();
-        /*1L por user*/
+
         Notification notification = new Notification(command, user);
         try {
             notificationRepository.save(notification);

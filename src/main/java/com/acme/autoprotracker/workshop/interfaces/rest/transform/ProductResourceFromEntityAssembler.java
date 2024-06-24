@@ -5,6 +5,6 @@ import com.acme.autoprotracker.workshop.interfaces.rest.resources.ProductResourc
 
 public class ProductResourceFromEntityAssembler {
     public static ProductResource toResourceFromEntity(Product entity) {
-        return new ProductResource(entity.getId(), entity.getName(), entity.getQuantity(), entity.getPrice(), entity.getProductImage(), entity.getWorkshopId());
+        return new ProductResource(entity.getId(), entity.getName(), entity.getQuantity(), entity.getPrice(), entity.getImage_url(), entity.getWorkshopId().getId());
     }
 }

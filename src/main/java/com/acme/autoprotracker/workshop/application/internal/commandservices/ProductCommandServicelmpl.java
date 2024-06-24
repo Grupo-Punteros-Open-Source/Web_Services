@@ -1,5 +1,6 @@
 package com.acme.autoprotracker.workshop.application.internal.commandservices;
 
+import com.acme.autoprotracker.User.Infrastructure.persistence.jpa.repositories.WorkshopRepository;
 import com.acme.autoprotracker.workshop.domain.model.aggregates.Product;
 import com.acme.autoprotracker.workshop.domain.model.commands.CreateProductCommand;
 import com.acme.autoprotracker.workshop.domain.model.commands.DeleteProductCommand;
@@ -13,9 +14,11 @@ import java.util.Optional;
 @Service
 public class ProductCommandServicelmpl implements ProductCommandService {
     private final ProductRepository productRepository;
+    private final WorkshopRepository workshopRepository;
 
-    public ProductCommandServicelmpl(ProductRepository productRepository) {
+    public ProductCommandServicelmpl(ProductRepository productRepository, WorkshopRepository workshopRepository) {
         this.productRepository = productRepository;
+        this.workshopRepository = workshopRepository;
     }
 
 
@@ -24,7 +27,11 @@ public class ProductCommandServicelmpl implements ProductCommandService {
         if (productRepository.existsByName(command.name())) {
             throw new IllegalArgumentException("Product with same name already exists");
         }
-        var product = new Product(command);
+
+        var workshopResult = workshopRepository.findById(command.workshopId());
+        var workshop = workshopResult.get();
+
+        var product = new Product(command, workshop);
         try {
             productRepository.save(product);
         } catch (Exception e) {
@@ -38,8 +45,13 @@ public class ProductCommandServicelmpl implements ProductCommandService {
         var result = productRepository.findById(command.id());
         if (result.isEmpty()) throw new IllegalArgumentException("Product does not exist");
         var productToUpdate = result.get();
+
+        var workshopResult = workshopRepository.findById(command.id());
+        if (workshopResult.isEmpty()) throw new IllegalArgumentException("Workshop does not exist");
+        var workshop = workshopResult.get();
+
         try {
-            var productUpdated = productRepository.save(productToUpdate.updateProduct(command.name(), command.quantity(), command.price(), command.productImage(), command.workshopId()));
+            var productUpdated = productRepository.save(productToUpdate.updateProduct(command.name(), command.quantity(), command.price(), command.image_url(), workshop));
             return Optional.of(productUpdated);
         } catch (Exception e) {
             throw new IllegalArgumentException("Error while updating product: " + e.getMessage());

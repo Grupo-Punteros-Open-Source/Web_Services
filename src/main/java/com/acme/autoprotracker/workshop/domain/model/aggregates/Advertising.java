@@ -1,5 +1,6 @@
 package com.acme.autoprotracker.workshop.domain.model.aggregates;
 
+import com.acme.autoprotracker.User.Domain.Model.Aggregates.Workshop;
 import com.acme.autoprotracker.workshop.domain.model.commands.CreateAdvertisingCommand;
 import com.acme.autoprotracker.workshop.domain.model.commands.CreateProductCommand;
 import jakarta.persistence.*;
@@ -26,8 +27,9 @@ public class Advertising {
     @Column(name = "comImage", nullable = false)
     private String comImage;
 
-    @Column(name = "workshopId", nullable = false) @Getter
-    private Long workshopId;
+    @ManyToOne
+    @JoinColumn(name = "workshop_id") @Getter
+    private Workshop workshopId;
 
     @URL @Getter
     @Column(name = "imageUrl", nullable = false)
@@ -48,14 +50,14 @@ public class Advertising {
     public Advertising() {
         this.comName = Strings.EMPTY;
         this.comImage = Strings.EMPTY;
-        this.workshopId = 0L;
+        this.workshopId = null;
         this.imageUrl = Strings.EMPTY;
         this.slogan = Strings.EMPTY;
         this.priceMsg = Strings.EMPTY;
         this.disMsg = Strings.EMPTY;
         this.repairMsg = Strings.EMPTY;
     }
-    public Advertising(String comName, String comImage, Long workshopId, String imageUrl, String slogan, String priceMsg, String disMsg, String repairMsg) {
+    public Advertising(String comName, String comImage, Workshop workshopId, String imageUrl, String slogan, String priceMsg, String disMsg, String repairMsg) {
         this.comName = comName;
         this.comImage = comImage;
         this.workshopId = workshopId;
@@ -66,18 +68,18 @@ public class Advertising {
         this.repairMsg = repairMsg;
     }
 
-    public Advertising(CreateAdvertisingCommand command){
+    public Advertising(CreateAdvertisingCommand command, Workshop workshopId){
         this();
         this.comName = command.comName();
         this.comImage = command.comImage();
-        this.workshopId = command.workshopId();
+        this.workshopId = workshopId;
         this.imageUrl = command.imageUrl();
         this.slogan = command.slogan();
         this.priceMsg = command.priceMsg();
         this.disMsg = command.disMsg();
         this.repairMsg = command.repairMsg();
     }
-    public Advertising updateAdvertising(String comName, String comImage, Long workshopId, String imageUrl, String slogan, String priceMsg, String disMsg, String repairMsg) {
+    public Advertising updateAdvertising(String comName, String comImage, Workshop workshopId, String imageUrl, String slogan, String priceMsg, String disMsg, String repairMsg) {
         this.comName = comName;
         this.comImage = comImage;
         this.workshopId = workshopId;
@@ -88,6 +90,5 @@ public class Advertising {
         this.repairMsg = repairMsg;
         return this;
     }
-
 
 }

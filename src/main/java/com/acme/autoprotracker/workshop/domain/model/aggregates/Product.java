@@ -1,5 +1,6 @@
 package com.acme.autoprotracker.workshop.domain.model.aggregates;
 
+import com.acme.autoprotracker.User.Domain.Model.Aggregates.Workshop;
 import com.acme.autoprotracker.workshop.domain.model.commands.CreateProductCommand;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -7,7 +8,6 @@ import org.apache.logging.log4j.util.Strings;
 import org.hibernate.validator.constraints.URL;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 @Getter
 @Entity
@@ -30,45 +30,45 @@ public class Product {
     private BigDecimal price;
 
     @Getter@URL
-    @Column (name = "productImage", nullable = false)
-    private String productImage;
+    @Column (name = "image_url", nullable = false)
+    private String image_url;
 
-    @Getter
-    @Column(name = "workshop_id", nullable = false)
-    private Long workshopId;
+    @ManyToOne
+    @JoinColumn(name = "workshop_id") @Getter
+    private Workshop workshopId;
 
 
     public Product() {
         this.name = Strings.EMPTY;
         this.quantity =  0L;
         this.price = new BigDecimal("0.00") ;
-        this.productImage = Strings.EMPTY;;
-        this.workshopId = 0L;
+        this.image_url = Strings.EMPTY;;
+        this.workshopId = null;
     }
 
 
-    public Product(String name, Long quantity, BigDecimal price, String productImage, Long workshopId) {
+    public Product(String name, Long quantity, BigDecimal price, String productImage, Workshop workshopId) {
         this();
         this.name = name;
         this.quantity = quantity;
         this.price = price;
-        this.productImage = productImage;
+        this.image_url = productImage;
         this.workshopId = workshopId;
     }
 
-    public Product(CreateProductCommand command){
+    public Product(CreateProductCommand command, Workshop workshopId) {
         this();
         this.name = command.name();
         this.quantity = command.quantity();
         this.price = command.price();
-        this.productImage = command.productImage();
-        this.workshopId = command.workshopId();
+        this.image_url = command.image_url();
+        this.workshopId = workshopId;
     }
-    public Product updateProduct(String name, Long quantity, BigDecimal price, String productImage, Long workshopId) {
+    public Product updateProduct(String name, Long quantity, BigDecimal price, String productImage, Workshop workshopId) {
         this.name = name;
         this.quantity = quantity;
         this.price = price;
-        this.productImage = productImage;
+        this.image_url = productImage;
         this.workshopId = workshopId;
         return this;
     }
