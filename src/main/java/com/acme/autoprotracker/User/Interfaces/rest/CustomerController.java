@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/v1/customer", produces = "application/json")
-@Tag(name = "Customer", description = "Customer Management Endpoints")
+@RequestMapping(value = "/api/v1/customers", produces = "application/json")
+@Tag(name = "Customers", description = "Customer Management Endpoints")
 public class CustomerController {
 
     private final CustomerCommandService customerCommandService;

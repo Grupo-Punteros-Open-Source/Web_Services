@@ -20,7 +20,7 @@ public class Customer {
 
     @ManyToOne
     @JoinColumn(name = "workshop_id")
-    private Workshop workshop;
+    private Workshop workshop_id;
 
     @Getter
     @Setter
@@ -45,37 +45,37 @@ public class Customer {
     @Getter
     @Setter
     @Column(name="image_Url")
-    private String imageUrl;
+    private String image_url;
 
     public Customer() {
         this.user = null;
-        this.workshop = null;
+        this.workshop_id = null;
         this.name = "default";
         this.address = "default";
         this.phone = "default";
         this.email = "default";
-        this.imageUrl = "default";
+        this.image_url = "default";
     }
 
     public Customer(CreateCustomerCommand command, User userId, Workshop workshopId) {
         this();
         this.user = userId;
-        this.workshop = workshopId;
+        this.workshop_id = workshopId;
         this.name = command.name();
         this.address = command.address();
         this.phone = command.phone();
         this.email = command.email();
-        this.imageUrl = command.imageUrl();
+        this.image_url = command.imageUrl();
     }
 
     public Customer update(User userId,Workshop workshopid ,String name, String address, String phone, String email, String imageUrl) {
         this.user = userId;
-        this.workshop = workshopid;
+        this.workshop_id = workshopid;
         this.address = address;
         this.name = name;
         this.phone = phone;
         this.email = email;
-        this.imageUrl = imageUrl;
+        this.image_url = imageUrl;
         return this;
     }
 
@@ -105,20 +105,20 @@ public class Customer {
         this.user = user;
     }
 
-    public Workshop getWorkshop() {
-        return workshop;
+    public Workshop getWorkshop_id() {
+        return workshop_id;
     }
 
-    public void setWorkshop(Workshop workshopId) {
-        this.workshop = workshopId;
+    public void setWorkshop_id(Workshop workshopId) {
+        this.workshop_id = workshopId;
     }
 
     public Workshop getWorkshopId() {
-        return workshop;
+        return workshop_id;
     }
 
     public void setWorkshopId(Workshop workshop) {
-        this.workshop = workshop;
+        this.workshop_id = workshop;
     }
 
 }

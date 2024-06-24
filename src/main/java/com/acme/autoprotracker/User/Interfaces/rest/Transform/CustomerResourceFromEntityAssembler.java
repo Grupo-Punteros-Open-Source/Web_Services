@@ -13,7 +13,7 @@ public class CustomerResourceFromEntityAssembler {
                 entity.getAddress(),
                 entity.getPhone(),
                 entity.getEmail(),
-                entity.getImageUrl()
+                entity.getImage_url()
         );
     }
 }

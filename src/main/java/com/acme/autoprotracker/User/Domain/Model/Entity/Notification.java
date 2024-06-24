@@ -16,7 +16,7 @@ public class Notification {
 
     @ManyToOne
     @JoinColumn(name="user_id")
-    private User user;
+    private User user_id;
 
     @Column(name="type")
     private String type;
@@ -35,7 +35,7 @@ public class Notification {
     private Boolean isRead;
 
     public Notification() {
-        this.user = null;
+        this.user_id = null;
         this.type = "default";
         this.title = "default";
         this.message = "default";
@@ -45,7 +45,7 @@ public class Notification {
 
     public Notification(CreateNotificationCommand command, User userId) {
         this();
-        this.user = userId;
+        this.user_id = userId;
         this.type = command.type();
         this.title = command.title();
         this.message = command.message();
@@ -54,7 +54,7 @@ public class Notification {
     }
 
     public Notification update(User userId, String type, String title, String message, String timestamp, Boolean isRead) {
-        this.user = userId;
+        this.user_id = userId;
         this.type = type;
         this.title = title;
         this.message = message;
@@ -68,12 +68,12 @@ public class Notification {
     }
 
     /*Long por User*/
-    public User getUser() {
-        return user;
+    public User getUser_id() {
+        return user_id;
     }
 
-    public void setUser(User userId) {
-        this.user = userId;}
+    public void setUser_id(User userId) {
+        this.user_id = userId;}
 
     public String getType() {
         return type;
