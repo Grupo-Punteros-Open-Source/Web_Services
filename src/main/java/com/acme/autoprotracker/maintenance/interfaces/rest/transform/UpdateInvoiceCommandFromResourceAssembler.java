@@ -7,6 +7,6 @@ import com.acme.autoprotracker.maintenance.interfaces.rest.resources.UpdateInvoi
 
 public class UpdateInvoiceCommandFromResourceAssembler {
     public static UpdateInvoiceCommand toCommandFromResource(Long id, UpdateInvoiceResource resource) {
-        return new UpdateInvoiceCommand(id, resource.invoiceCode(), resource.issueDate(),resource.total(),resource.status(),resource.detail());
+        return new UpdateInvoiceCommand(id, resource.number(), resource.issue_date(),resource.total(),resource.status(),resource.detail());
     }
 }

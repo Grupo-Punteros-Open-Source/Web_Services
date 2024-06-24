@@ -18,9 +18,6 @@ public class HistoryCommandServiceImpl implements HistoryCommandService {
 
     @Override
     public Long handle(CreateHistoryCommand command) {
-        if (historyRepository.existsById(command.mileage())) {
-            throw new IllegalArgumentException("History with same description already exists");
-        }
         var history = new History(command);
         try {
             historyRepository.save(history);
@@ -32,8 +29,6 @@ public class HistoryCommandServiceImpl implements HistoryCommandService {
 
     @Override
     public Optional<History> handle(UpdateHistoryCommand command) {
-        if (historyRepository.existsByMileageAndIdIsNot(command.mileage(), command.id()))
-            throw new IllegalArgumentException("History with same description already exists");
         var result = historyRepository.findById(command.id());
         if (result.isEmpty()) throw new IllegalArgumentException("History does not exist");
         var historyToUpdate = result.get();

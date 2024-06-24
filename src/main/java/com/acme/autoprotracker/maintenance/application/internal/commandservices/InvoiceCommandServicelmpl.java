@@ -19,9 +19,6 @@ public class InvoiceCommandServicelmpl implements InvoiceCommandService {
 
     @Override
     public Long handle(CreateInvoiceCommand command) {
-        if (invoiceRepository.existsByInvoiceCode(command.invoiceCode())) {
-            throw new IllegalArgumentException("Details with same maintanceId already exists");
-        }
         var invoice = new Invoice(command);
         try {
             invoiceRepository.save(invoice);
@@ -37,7 +34,7 @@ public class InvoiceCommandServicelmpl implements InvoiceCommandService {
         if (result.isEmpty()) throw new IllegalArgumentException("Invoice does not exist");
         var invoiceToUpdate = result.get();
         try {
-            var invoiceUpdated = invoiceRepository.save(invoiceToUpdate.updateInvoice(command.invoiceCode(),command.issueDate(),command.total(),command.status(),command.detail()));
+            var invoiceUpdated = invoiceRepository.save(invoiceToUpdate.updateInvoice(command.number(),command.issue_date(),command.total(),command.status(),command.detail()));
             return Optional.of(invoiceUpdated);
         } catch (Exception e) {
             throw new IllegalArgumentException("Error while updating invoice: " + e.getMessage());

@@ -5,6 +5,6 @@ import com.acme.autoprotracker.maintenance.interfaces.rest.resources.UpdateHisto
 
 public class UpdateHistoryCommandFromResourceAssembler {
     public static UpdateHistoryCommand toCommandFromResource(Long id, UpdateHistoryResource resource) {
-        return new UpdateHistoryCommand(id, resource.service(), resource.description(), resource.cost(), resource.mileage());
+        return new UpdateHistoryCommand(id, resource.service_date(), resource.description(), resource.cost(), resource.mileage());
     }
 }

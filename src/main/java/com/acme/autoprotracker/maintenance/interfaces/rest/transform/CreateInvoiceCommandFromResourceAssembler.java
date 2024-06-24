@@ -6,6 +6,6 @@ import com.acme.autoprotracker.maintenance.interfaces.rest.resources.CreateInvoi
 
 public class CreateInvoiceCommandFromResourceAssembler {
     public static CreateInvoiceCommand toCommandFromResource(CreateInvoiceResource resource) {
-        return new CreateInvoiceCommand(resource.invoiceCode(), resource.issueDate(),resource.total(),resource.status(),resource.detail());
+        return new CreateInvoiceCommand(resource.number(), resource.issue_date(),resource.total(),resource.status(),resource.detail());
     }
 }

@@ -18,8 +18,8 @@ import java.util.List;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
-@RequestMapping(value = "/api/v1/history", produces = APPLICATION_JSON_VALUE)
-@Tag(name = "History", description = "Histories Management Endpoints")
+@RequestMapping(value = "/api/v1/histories", produces = APPLICATION_JSON_VALUE)
+@Tag(name = "Histories", description = "Histories Management Endpoints")
 public class HistoryController {
 
     public HistoryController(HistoryQueryService historyQueryService, HistoryCommandService historyCommandService) {
@@ -45,7 +45,7 @@ public class HistoryController {
         var detailResource = HistoryResourceFromEntityAssembler.toResourceFromEntity(history.get());
         return new ResponseEntity<>(detailResource, HttpStatus.CREATED);
     }
-    @GetMapping("/{id}")
+    @GetMapping("/{historyId}")
     public ResponseEntity<HistoryResource> getHistoryById(@PathVariable Long historyId) {
         var getHistoryByIdQuery = new GetHistoryByIdQuery(historyId);
         var history = historyQueryService.handle(getHistoryByIdQuery);
@@ -63,7 +63,7 @@ public class HistoryController {
         return ResponseEntity.ok(historyResources);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{historyId}")
     public ResponseEntity<HistoryResource> updateHistory(@PathVariable Long historyId, @RequestBody UpdateHistoryResource updateHistoryResource) {
         var updateHistoyCommand = UpdateHistoryCommandFromResourceAssembler.toCommandFromResource(historyId, updateHistoryResource);
         var updatedHistory = historyCommandService.handle(updateHistoyCommand);
@@ -74,7 +74,7 @@ public class HistoryController {
         return ResponseEntity.ok(historyResource);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{historyId}")
     public ResponseEntity<?> deleteHistory(@PathVariable Long historyId) {
         var deleteHistoryCommand = new DeleteHistoryCommand(historyId);
         historyCommandService.handle(deleteHistoryCommand);

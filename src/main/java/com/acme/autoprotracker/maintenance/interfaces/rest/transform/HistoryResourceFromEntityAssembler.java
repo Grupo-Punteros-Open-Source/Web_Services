@@ -5,6 +5,6 @@ import com.acme.autoprotracker.maintenance.interfaces.rest.resources.HistoryReso
 
 public class HistoryResourceFromEntityAssembler {
     public static HistoryResource toResourceFromEntity(History entity) {
-        return new HistoryResource(entity.getId(), entity.getService(), entity.getDescription(), entity.getCost(), entity.getMileage());
+        return new HistoryResource(entity.getId(), entity.getService_date(), entity.getDescription(), entity.getCost(), entity.getMileage());
     }
 }
