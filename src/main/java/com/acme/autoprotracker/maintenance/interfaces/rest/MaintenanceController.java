@@ -39,15 +39,15 @@ public class MaintenanceController {
      */
     @PostMapping
     public ResponseEntity<MaintenanceResource> createVehicle(@RequestBody CreateMaintenanceResource createMaintanceResource) {
-        var createMaintanceCommand = CreateMaintenanceCommandFromResourceAssembler.toCommandFromResource(createMaintanceResource);
-        var maintenanceId = maintanceCommandService.handle(createMaintanceCommand);
+        var createMaintenanceCommand = CreateMaintenanceCommandFromResourceAssembler.toCommandFromResource(createMaintanceResource);
+        var maintenanceId = maintanceCommandService.handle(createMaintenanceCommand);
         if (maintenanceId == 0L) {
             return ResponseEntity.badRequest().build();
         }
         var getMaintenanceByIdQuery = new GetMaintenanceByIdQuery(maintenanceId);
         var maintenance = maintanceQueryService.handle(getMaintenanceByIdQuery);
         if (maintenance.isEmpty()) return ResponseEntity.badRequest().build();
-        var maintenanceResource = MaintanceResourceFromEntityAssembler.toResourceFromEntity(maintenance.get());
+        var maintenanceResource = MaintenanceResourceFromEntityAssembler.toResourceFromEntity(maintenance.get());
         return new ResponseEntity<>(maintenanceResource, HttpStatus.CREATED);
     }
 
@@ -64,7 +64,7 @@ public class MaintenanceController {
         var getMaintenanceByIdQuery = new GetMaintenanceByIdQuery(maintenanceId);
         var maintenance = maintanceQueryService.handle(getMaintenanceByIdQuery);
         if (maintenance.isEmpty()) return ResponseEntity.badRequest().build();
-        var maintenanceResource = MaintanceResourceFromEntityAssembler.toResourceFromEntity(maintenance.get());
+        var maintenanceResource = MaintenanceResourceFromEntityAssembler.toResourceFromEntity(maintenance.get());
         return ResponseEntity.ok(maintenanceResource);
     }
 
@@ -76,14 +76,14 @@ public class MaintenanceController {
      * @return the product resource with the given name
      * @see MaintenanceResource
      */
-    @GetMapping("/getBy/{vehicleId}")
+   /* @GetMapping("/getBy/{vehicleId}")
     public ResponseEntity<MaintenanceResource> getMaintanceByVehicleId(@PathVariable Long vehicleId) {
         var getMaintanceByVehicleIdQuery = new GetMaintenanceByVehicleIdQuery(vehicleId);
         var maintance = maintanceQueryService.handle(getMaintanceByVehicleIdQuery);
         if (maintance.isEmpty()) return ResponseEntity.badRequest().build();
-        var maintanceResource = MaintanceResourceFromEntityAssembler.toResourceFromEntity(maintance.get());
+        var maintanceResource = MaintenanceResourceFromEntityAssembler.toResourceFromEntity(maintance.get());
         return ResponseEntity.ok(maintanceResource);
-    }
+    }*/
 
     /**
      * Gets all the maintenances.
@@ -95,7 +95,7 @@ public class MaintenanceController {
     public ResponseEntity<List<MaintenanceResource>> getAllMaintenances() {
         var getAllMaintenancesQuery = new GetAllMaintenanceQuery();
         var maintenances = maintanceQueryService.handle(getAllMaintenancesQuery);
-        var maintenanceResources = maintenances.stream().map(MaintanceResourceFromEntityAssembler::toResourceFromEntity).toList();
+        var maintenanceResources = maintenances.stream().map(MaintenanceResourceFromEntityAssembler::toResourceFromEntity).toList();
         return ResponseEntity.ok(maintenanceResources);
     }
 
@@ -115,7 +115,7 @@ public class MaintenanceController {
         if (updatedMaintenance.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
-        var maintenanceResource = MaintanceResourceFromEntityAssembler.toResourceFromEntity(updatedMaintenance.get());
+        var maintenanceResource = MaintenanceResourceFromEntityAssembler.toResourceFromEntity(updatedMaintenance.get());
         return ResponseEntity.ok(maintenanceResource);
     }
 

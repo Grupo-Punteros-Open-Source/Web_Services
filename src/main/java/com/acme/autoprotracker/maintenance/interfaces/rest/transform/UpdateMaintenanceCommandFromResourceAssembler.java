@@ -5,7 +5,7 @@ import com.acme.autoprotracker.maintenance.interfaces.rest.resources.UpdatedMain
 
 public class UpdateMaintenanceCommandFromResourceAssembler {
     public static UpdateMaintenanceCommand toCommandFromResource(Long id, UpdatedMaintenanceResource resource) {
-        return new UpdateMaintenanceCommand(id, resource.status(),resource.lastvisitdate(),resource.coment(),
+        return new UpdateMaintenanceCommand(id, resource.status(),resource.lastVisitDate(),resource.comment(),
                 resource.invoiceId(), resource.customerId(), resource.workshopId(), resource.vehicleId(), resource.historyId());
     }
 }

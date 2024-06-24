@@ -26,9 +26,9 @@ public class MaintenanceQueryServicelmpl implements MaintenanceQueryService {
         return maintanceRepository.findAll();
     }
 
-    @Override
+  /*  @Override
     public Optional<Maintenance> handle(GetMaintenanceByVehicleIdQuery query) {
         return maintanceRepository.findByVehicleId(query.vehicleId());
-    }
+    }*/
 
 }

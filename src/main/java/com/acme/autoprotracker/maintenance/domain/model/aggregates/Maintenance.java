@@ -1,12 +1,12 @@
 package com.acme.autoprotracker.maintenance.domain.model.aggregates;
 
 
+import com.acme.autoprotracker.User.Domain.Model.Aggregates.Customer;
+import com.acme.autoprotracker.User.Domain.Model.Aggregates.Workshop;
 import com.acme.autoprotracker.maintenance.domain.model.commands.CreateMaintenanceCommand;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.apache.logging.log4j.util.Strings;
-
-import java.util.Date;
 
 @Getter
 @Entity
@@ -21,38 +21,43 @@ public class Maintenance {
     private String status;
 
     @Getter
-    @Column(name = "lastvisitDate", nullable = false)
-    private Date lastvisitdate;
+    @Column(name = "lastVisitDate", nullable = false)
+    private String lastVisitDate;
 
     @Getter
-    @Column(name = "coment", nullable = false)
-    private String coment;
+    @Column(name = "comment", nullable = false)
+    private String comment;
 
     @Getter
-    @Column(name = "invoiceId", nullable = true)
-    private Long invoiceId;
+    @OneToOne
+    @JoinColumn(name = "invoiceId", nullable = true)
+    private Invoice invoiceId;
 
     @Getter
-    @Column(name = "customerId", nullable = false)
-    private Long customerId;
+    @OneToOne
+    @JoinColumn(name = "customerId")
+    private Customer customerId;
 
     @Getter
-    @Column(name = "workshopId", nullable = false)
-    private Long workshopId;
+    @OneToOne
+    @JoinColumn(name = "workshopId")
+    private Workshop workshopId;
 
     @Getter
-    @Column(name = "vehicleId", nullable = false)
-    private Long vehicleId;
+    @OneToOne
+    @JoinColumn(name = "vehicleId", nullable = false)
+    private Vehicle vehicleId;
 
     @Getter
-    @Column(name = "historyId", nullable = true)
-    private Long historyId;
+    @OneToOne
+    @JoinColumn(name = "historyId", nullable = true)
+    private History historyId;
 
-    public Maintenance(String status, Date lastvisitdate, String coment, Long invoiceId, Long customerId, Long workshopId, Long vehicleId, Long historyId) {
+    public Maintenance(String status, String lastVisitDate, String comment, Invoice invoiceId, Customer customerId, Workshop workshopId, Vehicle vehicleId, History historyId) {
         this();
         this.status = status;
-        this.lastvisitdate = lastvisitdate;
-        this.coment = coment;
+        this.lastVisitDate = lastVisitDate;
+        this.comment = comment;
         this.invoiceId = invoiceId;
         this.customerId = customerId;
         this.workshopId = workshopId;
@@ -61,30 +66,30 @@ public class Maintenance {
     }
     public Maintenance() {
         this.status = Strings.EMPTY;
-        this.lastvisitdate = new Date();
-        this.coment = Strings.EMPTY ;
-        this.invoiceId =  0L;
-        this.customerId =  0L;
-        this.workshopId = 0L;
-        this.vehicleId = 0L;
-        this.historyId= 0L;
+        this.lastVisitDate = Strings.EMPTY;
+        this.comment = Strings.EMPTY ;
+        this.invoiceId =  null;
+        this.customerId =  null ;
+        this.workshopId = null;
+        this.vehicleId = null;
+        this.historyId= null;
     }
 
-    public Maintenance(CreateMaintenanceCommand command){
+    public Maintenance(CreateMaintenanceCommand command, Invoice invoiceId, Customer customerId, Workshop workshopId, Vehicle vehicleId, History historyId) {
         this();
         this.status = command.status();
-        this.lastvisitdate = command.lastvisitdate();
-        this.coment = command.coment();
-        this.invoiceId = command.invoiceId();
-        this.customerId = command.customerId();
-        this.workshopId = command.workshopId();
-        this.vehicleId = command.vehicleId();
-        this.historyId = command.historyId();
+        this.lastVisitDate = command.lastVisitDate();
+        this.comment = command.comment();
+        this.invoiceId = invoiceId;
+        this.customerId = customerId;
+        this.workshopId = workshopId;
+        this.vehicleId = vehicleId;
+        this.historyId = historyId;
     }
-    public Maintenance updateMaintance(String status, Date lastvisitdate, String coment, Long invoiceId, Long customerId, Long workshopId, Long vehicleId, Long historyId) {
+    public Maintenance updateMaintenance(String status, String lastVisitDate, String comment, Invoice invoiceId, Customer customerId, Workshop workshopId, Vehicle vehicleId, History historyId) {
         this.status = status;
-        this.lastvisitdate = lastvisitdate;
-        this.coment = coment;
+        this.lastVisitDate = lastVisitDate;
+        this.comment = comment;
         this.invoiceId = invoiceId;
         this.customerId = customerId;
         this.workshopId = workshopId;

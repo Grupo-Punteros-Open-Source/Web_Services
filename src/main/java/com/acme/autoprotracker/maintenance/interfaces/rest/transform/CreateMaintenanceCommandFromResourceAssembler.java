@@ -5,7 +5,7 @@ import com.acme.autoprotracker.maintenance.interfaces.rest.resources.CreateMaint
 
 public class CreateMaintenanceCommandFromResourceAssembler {
     public static CreateMaintenanceCommand toCommandFromResource(CreateMaintenanceResource resource) {
-        return new CreateMaintenanceCommand(resource.status(),resource.lastvisitdate(),resource.coment(),
+        return new CreateMaintenanceCommand(resource.status(),resource.lastVisitDate(),resource.comment(),
                 resource.invoiceId(), resource.customerId(), resource.workshopId(), resource.vehicleId(), resource.historyId());
     }
 }

@@ -46,7 +46,7 @@ public class DetailCommandServicelmpl implements DetailCommandService {
         var detailToUpdate = result.get();
 
         var maintenanceResult = maintenanceRepository.findById(command.id());
-        if (maintenanceResult.isEmpty()) throw new IllegalArgumentException("Workshop does not exist");
+        if (maintenanceResult.isEmpty()) throw new IllegalArgumentException("Maintenance does not exist");
         var maintenance = maintenanceResult.get();
 
         try {

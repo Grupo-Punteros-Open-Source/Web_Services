@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface MaintenanceQueryService {
     Optional<Maintenance> handle(GetMaintenanceByIdQuery query);
     List<Maintenance> handle(GetAllMaintenanceQuery query);
-    Optional<Maintenance> handle(GetMaintenanceByVehicleIdQuery query);
+   /* Optional<Maintenance> handle(GetMaintenanceByVehicleIdQuery query);*/
 }
