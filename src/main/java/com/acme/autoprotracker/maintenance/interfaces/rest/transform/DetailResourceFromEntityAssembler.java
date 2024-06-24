@@ -5,6 +5,6 @@ import com.acme.autoprotracker.maintenance.interfaces.rest.resources.DetailResou
 
 public class DetailResourceFromEntityAssembler {
     public static DetailResource toResourceFromEntity(Detail entity) {
-        return new DetailResource(entity.getId(), entity.getDescription(), entity.getAmount(), entity.getMaintanceId());
+        return new DetailResource(entity.getId(), entity.getDescription(), entity.getAmount(), entity.getMaintenanceId().getId());
     }
 }

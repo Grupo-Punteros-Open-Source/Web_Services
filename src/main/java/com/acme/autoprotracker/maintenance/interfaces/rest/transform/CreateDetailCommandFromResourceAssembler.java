@@ -5,6 +5,6 @@ import com.acme.autoprotracker.maintenance.interfaces.rest.resources.CreateDetai
 
 public class CreateDetailCommandFromResourceAssembler {
     public static CreateDetailCommand toCommandFromResource(CreateDetailResource resource) {
-        return new CreateDetailCommand(resource.description(), resource.amount(),resource.maintanceId());
+        return new CreateDetailCommand(resource.description(), resource.amount(),resource.maintenance_id());
     }
 }

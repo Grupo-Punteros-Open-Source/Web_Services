@@ -5,6 +5,6 @@ import com.acme.autoprotracker.maintenance.interfaces.rest.resources.UpdateDetai
 
 public class UpdateDetailCommandFromResourceAssembler {
     public static UpdateDetailCommand toCommandFromResource(Long id, UpdateDetailResource resource) {
-        return new UpdateDetailCommand(id, resource.description(), resource.amount(), resource.maintanceId());
+        return new UpdateDetailCommand(id, resource.description(), resource.amount(), resource.maintenance_id());
     }
 }

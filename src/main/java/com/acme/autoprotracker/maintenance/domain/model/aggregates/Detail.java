@@ -22,36 +22,36 @@ public class Detail {
     @Column(name = "amount")
     private Long amount;
 
-    @Getter
-    @Column(name = "maintenance_id", nullable = false)
-    private Long maintanceId;
+    @ManyToOne
+    @JoinColumn(name = "maintenance_id")
+    private Maintenance maintenanceId;
 
 
     public Detail() {
         this.description = Strings.EMPTY;
         this.amount = 0L;
-        this.maintanceId = 0L;
+        this.maintenanceId = null;
     }
 
 
-    public Detail(String description, Long amount, Long maintanceId) {
+    public Detail(String description, Long amount, Maintenance maintanceId) {
         this();
         this.description = description;
         this.amount = amount;
-        this.maintanceId = maintanceId;
+        this.maintenanceId = maintanceId;
     }
 
-    public Detail(CreateDetailCommand command){
+    public Detail(CreateDetailCommand command, Maintenance maintenanceId){
 this();
 this.description = command.description();
 this.amount = command.amount();
-this.maintanceId = command.maintanceId();
+this.maintenanceId = maintenanceId;
     }
 
-    public Detail updateDetails(String description, Long amount, Long maintanceId) {
+    public Detail updateDetails(String description, Long amount, Maintenance maintenanceId) {
         this.description = description;
         this.amount = amount;
-        this.maintanceId = maintanceId;
+        this.maintenanceId = maintenanceId;
         return this;
     }
 

@@ -1,4 +1,4 @@
 package com.acme.autoprotracker.maintenance.domain.model.queries;
 
-public record GetAllMaintanceQuery() {
+public record GetMaintenanceByIdQuery(Long id) {
 }

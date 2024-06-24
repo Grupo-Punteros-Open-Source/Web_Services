@@ -1,29 +1,27 @@
 package com.acme.autoprotracker.maintenance.application.internal.commandservices;
 
-import com.acme.autoprotracker.maintenance.domain.model.aggregates.Invoice;
-import com.acme.autoprotracker.maintenance.domain.model.aggregates.Maintance;
+import com.acme.autoprotracker.maintenance.domain.model.aggregates.Maintenance;
 import com.acme.autoprotracker.maintenance.domain.model.commands.*;
-import com.acme.autoprotracker.maintenance.domain.services.MaintanceCommandService;
-import com.acme.autoprotracker.maintenance.infrastructure.persistence.jpa.repositories.MaintanceRepository;
-import com.acme.autoprotracker.maintenance.infrastructure.persistence.jpa.repositories.VehicleRepository;
+import com.acme.autoprotracker.maintenance.domain.services.MaintenanceCommandService;
+import com.acme.autoprotracker.maintenance.infrastructure.persistence.jpa.repositories.MaintenanceRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 @Service
-public class MaintanceCommandServicelmpl implements MaintanceCommandService {
+public class MaintenanceCommandServicelmpl implements MaintenanceCommandService {
 
-    public MaintanceCommandServicelmpl(MaintanceRepository maintanceRepository) {
+    public MaintenanceCommandServicelmpl(MaintenanceRepository maintanceRepository) {
         this.maintanceRepository = maintanceRepository;
     }
 
-    private final MaintanceRepository maintanceRepository;
+    private final MaintenanceRepository maintanceRepository;
 
     @Override
-    public Long handle(CreateMaintanceCommand command) {
+    public Long handle(CreateMaintenanceCommand command) {
         if (maintanceRepository.existsByVehicleId(command.vehicleId())) {
             throw new IllegalArgumentException("Maintance with same vehicleId already exists");
         }
-        var maintance = new Maintance(command);
+        var maintance = new Maintenance(command);
         try {
             maintanceRepository.save(maintance);
         } catch (Exception e) {
@@ -33,7 +31,7 @@ public class MaintanceCommandServicelmpl implements MaintanceCommandService {
     }
 
     @Override
-    public Optional<Maintance> handle(UpdateMaintanceCommand command) {
+    public Optional<Maintenance> handle(UpdateMaintenanceCommand command) {
         var result = maintanceRepository.findById(command.id());
         if (result.isEmpty()) throw new IllegalArgumentException("Maintance does not exist");
         var maintanceToUpdate = result.get();
@@ -47,7 +45,7 @@ public class MaintanceCommandServicelmpl implements MaintanceCommandService {
     }
 
     @Override
-    public void handle(DeleteMaintanceCommand command) {
+    public void handle(DeleteMaintenanceCommand command) {
         if (!maintanceRepository.existsById(command.id())) {
             throw new IllegalArgumentException("Maintance does not exist");
         }

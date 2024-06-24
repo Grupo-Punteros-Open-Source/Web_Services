@@ -1,21 +1,16 @@
 package com.acme.autoprotracker.maintenance.domain.model.aggregates;
 
 
-import com.acme.autoprotracker.maintenance.domain.model.commands.CreateInvoiceCommand;
-import com.acme.autoprotracker.maintenance.domain.model.commands.CreateMaintanceCommand;
-import com.acme.autoprotracker.maintenance.domain.model.valueobjects.InvoiceCode;
-import com.acme.autoprotracker.maintenance.domain.model.valueobjects.InvoiceStatus;
-import com.acme.autoprotracker.maintenance.domain.model.valueobjects.Plate;
+import com.acme.autoprotracker.maintenance.domain.model.commands.CreateMaintenanceCommand;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.apache.logging.log4j.util.Strings;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 @Getter
 @Entity
-public class Maintance {
+public class Maintenance {
     @Id
     @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +29,7 @@ public class Maintance {
     private String coment;
 
     @Getter
-    @Column(name = "invoiceId", nullable = false)
+    @Column(name = "invoiceId", nullable = true)
     private Long invoiceId;
 
     @Getter
@@ -50,10 +45,10 @@ public class Maintance {
     private Long vehicleId;
 
     @Getter
-    @Column(name = "historyId", nullable = false)
+    @Column(name = "historyId", nullable = true)
     private Long historyId;
 
-    public Maintance(String status, Date lastvisitdate, String coment, Long invoiceId, Long customerId, Long workshopId, Long vehicleId, Long historyId) {
+    public Maintenance(String status, Date lastvisitdate, String coment, Long invoiceId, Long customerId, Long workshopId, Long vehicleId, Long historyId) {
         this();
         this.status = status;
         this.lastvisitdate = lastvisitdate;
@@ -64,7 +59,7 @@ public class Maintance {
         this.vehicleId = vehicleId;
         this.historyId = historyId;
     }
-    public Maintance() {
+    public Maintenance() {
         this.status = Strings.EMPTY;
         this.lastvisitdate = new Date();
         this.coment = Strings.EMPTY ;
@@ -75,7 +70,7 @@ public class Maintance {
         this.historyId= 0L;
     }
 
-    public Maintance(CreateMaintanceCommand command){
+    public Maintenance(CreateMaintenanceCommand command){
         this();
         this.status = command.status();
         this.lastvisitdate = command.lastvisitdate();
@@ -86,7 +81,7 @@ public class Maintance {
         this.vehicleId = command.vehicleId();
         this.historyId = command.historyId();
     }
-    public Maintance updateMaintance(String status, Date lastvisitdate, String coment, Long invoiceId, Long customerId, Long workshopId, Long vehicleId, Long historyId) {
+    public Maintenance updateMaintance(String status, Date lastvisitdate, String coment, Long invoiceId, Long customerId, Long workshopId, Long vehicleId, Long historyId) {
         this.status = status;
         this.lastvisitdate = lastvisitdate;
         this.coment = coment;

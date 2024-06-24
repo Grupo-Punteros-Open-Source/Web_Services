@@ -1,11 +1,10 @@
 package com.acme.autoprotracker.maintenance.interfaces.rest;
 
 
-import com.acme.autoprotracker.maintenance.domain.model.commands.DeleteMaintanceCommand;
-import com.acme.autoprotracker.maintenance.domain.model.commands.DeleteVehicleCommand;
+import com.acme.autoprotracker.maintenance.domain.model.commands.DeleteMaintenanceCommand;
 import com.acme.autoprotracker.maintenance.domain.model.queries.*;
-import com.acme.autoprotracker.maintenance.domain.services.MaintanceCommandService;
-import com.acme.autoprotracker.maintenance.domain.services.MaintanceQueryService;
+import com.acme.autoprotracker.maintenance.domain.services.MaintenanceCommandService;
+import com.acme.autoprotracker.maintenance.domain.services.MaintenanceQueryService;
 import com.acme.autoprotracker.maintenance.interfaces.rest.resources.*;
 import com.acme.autoprotracker.maintenance.interfaces.rest.transform.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -20,11 +19,11 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 @RequestMapping(value = "/api/v1/maintances", produces = APPLICATION_JSON_VALUE)
 @Tag(name = "Maintance", description = "Maintance Management Endpoints")
-public class MaintanceController {
-    private final MaintanceQueryService maintanceQueryService;
-    private final MaintanceCommandService maintanceCommandService;
+public class MaintenanceController {
+    private final MaintenanceQueryService maintanceQueryService;
+    private final MaintenanceCommandService maintanceCommandService;
 
-    public MaintanceController(MaintanceQueryService maintanceQueryService, MaintanceCommandService maintanceCommandService) {
+    public MaintenanceController(MaintenanceQueryService maintanceQueryService, MaintenanceCommandService maintanceCommandService) {
         this.maintanceQueryService = maintanceQueryService;
         this.maintanceCommandService = maintanceCommandService;
     }
@@ -35,17 +34,17 @@ public class MaintanceController {
      *
      * @param createMaintanceResource the resource containing the data for the maintance to be created
      * @return the created maintance resource
-     * @see CreateMaintanceResource
-     * @see MaintanceResource
+     * @see CreateMaintenanceResource
+     * @see MaintenanceResource
      */
     @PostMapping
-    public ResponseEntity<MaintanceResource> createVehicle(@RequestBody CreateMaintanceResource createMaintanceResource) {
-        var createMaintanceCommand = CreateMaintanceCommandFromResourceAssembler.toCommandFromResource(createMaintanceResource);
+    public ResponseEntity<MaintenanceResource> createVehicle(@RequestBody CreateMaintenanceResource createMaintanceResource) {
+        var createMaintanceCommand = CreateMaintenanceCommandFromResourceAssembler.toCommandFromResource(createMaintanceResource);
         var maintenanceId = maintanceCommandService.handle(createMaintanceCommand);
         if (maintenanceId == 0L) {
             return ResponseEntity.badRequest().build();
         }
-        var getMaintenanceByIdQuery = new GetMaintanceByIdQuery(maintenanceId);
+        var getMaintenanceByIdQuery = new GetMaintenanceByIdQuery(maintenanceId);
         var maintenance = maintanceQueryService.handle(getMaintenanceByIdQuery);
         if (maintenance.isEmpty()) return ResponseEntity.badRequest().build();
         var maintenanceResource = MaintanceResourceFromEntityAssembler.toResourceFromEntity(maintenance.get());
@@ -58,11 +57,11 @@ public class MaintanceController {
      *
      * @param maintenanceId the id of the maintenance to be retrieved
      * @return the maintenance resource with the given id
-     * @see MaintanceResource
+     * @see MaintenanceResource
      */
     @GetMapping("/{maintenanceId}")
-    public ResponseEntity<MaintanceResource> getMaintenanceById(@PathVariable Long maintenanceId) {
-        var getMaintenanceByIdQuery = new GetMaintanceByIdQuery(maintenanceId);
+    public ResponseEntity<MaintenanceResource> getMaintenanceById(@PathVariable Long maintenanceId) {
+        var getMaintenanceByIdQuery = new GetMaintenanceByIdQuery(maintenanceId);
         var maintenance = maintanceQueryService.handle(getMaintenanceByIdQuery);
         if (maintenance.isEmpty()) return ResponseEntity.badRequest().build();
         var maintenanceResource = MaintanceResourceFromEntityAssembler.toResourceFromEntity(maintenance.get());
@@ -75,11 +74,11 @@ public class MaintanceController {
      *
      * @param vehicleId the vehicleId of the maintance to be retrieved
      * @return the product resource with the given name
-     * @see MaintanceResource
+     * @see MaintenanceResource
      */
     @GetMapping("/getBy/{vehicleId}")
-    public ResponseEntity<MaintanceResource> getMaintanceByVehicleId(@PathVariable Long vehicleId) {
-        var getMaintanceByVehicleIdQuery = new GetMaintanceByVehicleIdQuery(vehicleId);
+    public ResponseEntity<MaintenanceResource> getMaintanceByVehicleId(@PathVariable Long vehicleId) {
+        var getMaintanceByVehicleIdQuery = new GetMaintenanceByVehicleIdQuery(vehicleId);
         var maintance = maintanceQueryService.handle(getMaintanceByVehicleIdQuery);
         if (maintance.isEmpty()) return ResponseEntity.badRequest().build();
         var maintanceResource = MaintanceResourceFromEntityAssembler.toResourceFromEntity(maintance.get());
@@ -90,11 +89,11 @@ public class MaintanceController {
      * Gets all the maintenances.
      *
      * @return the list of all the maintenances resources
-     * @see MaintanceResource
+     * @see MaintenanceResource
      */
     @GetMapping
-    public ResponseEntity<List<MaintanceResource>> getAllMaintenances() {
-        var getAllMaintenancesQuery = new GetAllMaintanceQuery();
+    public ResponseEntity<List<MaintenanceResource>> getAllMaintenances() {
+        var getAllMaintenancesQuery = new GetAllMaintenanceQuery();
         var maintenances = maintanceQueryService.handle(getAllMaintenancesQuery);
         var maintenanceResources = maintenances.stream().map(MaintanceResourceFromEntityAssembler::toResourceFromEntity).toList();
         return ResponseEntity.ok(maintenanceResources);
@@ -106,12 +105,12 @@ public class MaintanceController {
      * @param maintenanceId             the id of the maintenance to be updated
      * @param updateMaintenanceResource the resource containing the data for the maintenance to be updated
      * @return the updated maintenance resource
-     * @see UpdatedMaintanceResource
-     * @see MaintanceResource
+     * @see UpdatedMaintenanceResource
+     * @see MaintenanceResource
      */
     @PutMapping("/{maintenanceId}")
-    public ResponseEntity<MaintanceResource> updateMaintenance(@PathVariable Long maintenanceId, @RequestBody UpdatedMaintanceResource updateMaintenanceResource) {
-        var updateMaintenanceCommand = UpdateMaintanceCommandFromResourceAssembler.toCommandFromResource(maintenanceId, updateMaintenanceResource);
+    public ResponseEntity<MaintenanceResource> updateMaintenance(@PathVariable Long maintenanceId, @RequestBody UpdatedMaintenanceResource updateMaintenanceResource) {
+        var updateMaintenanceCommand = UpdateMaintenanceCommandFromResourceAssembler.toCommandFromResource(maintenanceId, updateMaintenanceResource);
         var updatedMaintenance = maintanceCommandService.handle(updateMaintenanceCommand);
         if (updatedMaintenance.isEmpty()) {
             return ResponseEntity.badRequest().build();
@@ -129,7 +128,7 @@ public class MaintanceController {
      */
     @DeleteMapping("/{maintenanceId}")
     public ResponseEntity<?> deleteMaintenance(@PathVariable Long maintenanceId) {
-        var deleteMaintenanceCommand = new DeleteMaintanceCommand(maintenanceId);
+        var deleteMaintenanceCommand = new DeleteMaintenanceCommand(maintenanceId);
         maintanceCommandService.handle(deleteMaintenanceCommand);
         return ResponseEntity.ok("Maintenance with given id successfully deleted");
     }
