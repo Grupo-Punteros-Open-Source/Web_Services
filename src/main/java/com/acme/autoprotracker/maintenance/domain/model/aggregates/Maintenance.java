@@ -40,7 +40,7 @@ public class Maintenance {
 
     @Getter
     @OneToOne
-    @JoinColumn(name = "workshopId")
+    @JoinColumn(name = "workshop_id")
     private Workshop workshopId;
 
     @Getter

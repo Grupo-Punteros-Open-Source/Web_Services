@@ -35,7 +35,7 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "workshop_id") @Getter
-    private Workshop workshopId;
+    private Workshop workshop_id;
 
 
     public Product() {
@@ -43,7 +43,7 @@ public class Product {
         this.quantity =  0L;
         this.price = new BigDecimal("0.00") ;
         this.image_url = Strings.EMPTY;;
-        this.workshopId = null;
+        this.workshop_id = null;
     }
 
 
@@ -53,7 +53,7 @@ public class Product {
         this.quantity = quantity;
         this.price = price;
         this.image_url = productImage;
-        this.workshopId = workshopId;
+        this.workshop_id = workshopId;
     }
 
     public Product(CreateProductCommand command, Workshop workshopId) {
@@ -62,14 +62,14 @@ public class Product {
         this.quantity = command.quantity();
         this.price = command.price();
         this.image_url = command.image_url();
-        this.workshopId = workshopId;
+        this.workshop_id = workshopId;
     }
     public Product updateProduct(String name, Long quantity, BigDecimal price, String productImage, Workshop workshopId) {
         this.name = name;
         this.quantity = quantity;
         this.price = price;
         this.image_url = productImage;
-        this.workshopId = workshopId;
+        this.workshop_id = workshopId;
         return this;
     }
 

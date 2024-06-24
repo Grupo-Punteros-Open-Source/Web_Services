@@ -19,7 +19,7 @@ import java.util.List;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
-@RequestMapping(value = "/api/v1/advertisings", produces = APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/advertising", produces = APPLICATION_JSON_VALUE)
 @Tag(name = "Advertising", description = "Advertising Management Endpoints")
 public class AdvertisingController {
     private final AdvertisingQueryService advertisingQueryService;

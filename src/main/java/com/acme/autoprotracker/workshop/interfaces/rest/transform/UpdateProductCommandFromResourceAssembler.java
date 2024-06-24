@@ -5,6 +5,6 @@ import com.acme.autoprotracker.workshop.interfaces.rest.resources.UpdateProductR
 
 public class UpdateProductCommandFromResourceAssembler {
     public static UpdateProductCommand toCommandFromResource(Long id, UpdateProductResource resource) {
-        return new UpdateProductCommand(id, resource.name(), resource.quantity(),resource.price(),resource.image_url(),resource.workshopId());
+        return new UpdateProductCommand(id, resource.name(), resource.quantity(),resource.price(),resource.image_url(),resource.workshop_id());
     }
 }

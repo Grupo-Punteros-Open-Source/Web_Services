@@ -2,13 +2,10 @@ package com.acme.autoprotracker.workshop.domain.model.aggregates;
 
 import com.acme.autoprotracker.User.Domain.Model.Aggregates.Workshop;
 import com.acme.autoprotracker.workshop.domain.model.commands.CreateAdvertisingCommand;
-import com.acme.autoprotracker.workshop.domain.model.commands.CreateProductCommand;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.apache.logging.log4j.util.Strings;
 import org.hibernate.validator.constraints.URL;
-
-import java.math.BigDecimal;
 
 @Getter
 @Entity
@@ -29,7 +26,7 @@ public class Advertising {
 
     @ManyToOne
     @JoinColumn(name = "workshop_id") @Getter
-    private Workshop workshopId;
+    private Workshop workshop_id;
 
     @URL @Getter
     @Column(name = "image_url", nullable = false)
@@ -50,7 +47,7 @@ public class Advertising {
     public Advertising() {
         this.comName = Strings.EMPTY;
         this.comImage = Strings.EMPTY;
-        this.workshopId = null;
+        this.workshop_id = null;
         this.imageUrl = Strings.EMPTY;
         this.slogan = Strings.EMPTY;
         this.priceMsg = Strings.EMPTY;
@@ -60,7 +57,7 @@ public class Advertising {
     public Advertising(String comName, String comImage, Workshop workshopId, String imageUrl, String slogan, String priceMsg, String disMsg, String repairMsg) {
         this.comName = comName;
         this.comImage = comImage;
-        this.workshopId = workshopId;
+        this.workshop_id = workshopId;
         this.imageUrl = imageUrl;
         this.slogan = slogan;
         this.priceMsg = priceMsg;
@@ -72,7 +69,7 @@ public class Advertising {
         this();
         this.comName = command.comName();
         this.comImage = command.comImage();
-        this.workshopId = workshopId;
+        this.workshop_id = workshopId;
         this.imageUrl = command.imageUrl();
         this.slogan = command.slogan();
         this.priceMsg = command.priceMsg();
@@ -82,7 +79,7 @@ public class Advertising {
     public Advertising updateAdvertising(String comName, String comImage, Workshop workshopId, String imageUrl, String slogan, String priceMsg, String disMsg, String repairMsg) {
         this.comName = comName;
         this.comImage = comImage;
-        this.workshopId = workshopId;
+        this.workshop_id = workshopId;
         this.imageUrl = imageUrl;
         this.slogan = slogan;
         this.priceMsg = priceMsg;

@@ -5,6 +5,6 @@ import com.acme.autoprotracker.workshop.interfaces.rest.resources.CreateProductR
 
 public class CreateProductCommandFromResourceAssembler {
     public static CreateProductCommand toCommandFromResource(CreateProductResource resource) {
-        return new CreateProductCommand(resource.name(), resource.quantity(),resource.price(),resource.image_url(),resource.workshopId());
+        return new CreateProductCommand(resource.name(), resource.quantity(),resource.price(),resource.image_url(),resource.workshop_id());
     }
 }
