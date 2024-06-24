@@ -1,5 +1,6 @@
-package com.acme.autoprotracker.User.Domain.Model.Aggregates;
+package com.acme.autoprotracker.User.Domain.Model.Entity;
 
+import com.acme.autoprotracker.iam.domain.model.aggregates.User;
 import jakarta.persistence.*;
 import com.acme.autoprotracker.User.Domain.Model.Commands.CreateNotificationCommand;
 import lombok.Getter;
@@ -13,11 +14,9 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    /*Long por User*/
-    /*@ManyToOne
-    @JoinColumn(name="user_id")*/
-    @Column(name="user_id")
-    private Long user;
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
 
     @Column(name="type")
     private String type;
@@ -43,8 +42,8 @@ public class Notification {
         this.timestamp = "default";
         this.isRead = false;
     }
-    /*Long por User*/
-    public Notification(CreateNotificationCommand command, Long userId) {
+
+    public Notification(CreateNotificationCommand command, User userId) {
         this();
         this.user = userId;
         this.type = command.type();
@@ -53,8 +52,8 @@ public class Notification {
         this.timestamp = command.timestamp();
         this.isRead = command.read();
     }
-    /*Long por User*/
-    public Notification update(Long userId, String type, String title, String message, String timestamp, Boolean isRead) {
+
+    public Notification update(User userId, String type, String title, String message, String timestamp, Boolean isRead) {
         this.user = userId;
         this.type = type;
         this.title = title;
@@ -69,12 +68,11 @@ public class Notification {
     }
 
     /*Long por User*/
-    public Long getUser() {
+    public User getUser() {
         return user;
     }
 
-    /*Long por User*/
-    public void setUser(Long userId) {
+    public void setUser(User userId) {
         this.user = userId;}
 
     public String getType() {

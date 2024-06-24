@@ -1,7 +1,7 @@
 package com.acme.autoprotracker.User.Domain.Model.Aggregates;
 
-
 import com.acme.autoprotracker.User.Domain.Model.Commands.CreateCustomerCommand;
+import com.acme.autoprotracker.User.Domain.Model.Commands.CreateWorkshopCommand;
 import com.acme.autoprotracker.iam.domain.model.aggregates.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Entity
-public class Customer {
+public class Workshop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,10 +17,6 @@ public class Customer {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "workshop_id")
-    private Workshop workshop;
 
     @Getter
     @Setter
@@ -47,9 +43,9 @@ public class Customer {
     @Column(name="image_Url")
     private String imageUrl;
 
-    public Customer() {
+
+    public Workshop() {
         this.user = null;
-        this.workshop = null;
         this.name = "default";
         this.address = "default";
         this.phone = "default";
@@ -57,10 +53,9 @@ public class Customer {
         this.imageUrl = "default";
     }
 
-    public Customer(CreateCustomerCommand command, User userId, Workshop workshopId) {
+    public Workshop(CreateWorkshopCommand command, User userId) {
         this();
         this.user = userId;
-        this.workshop = workshopId;
         this.name = command.name();
         this.address = command.address();
         this.phone = command.phone();
@@ -68,9 +63,8 @@ public class Customer {
         this.imageUrl = command.imageUrl();
     }
 
-    public Customer update(User userId,Workshop workshopid ,String name, String address, String phone, String email, String imageUrl) {
+    public Workshop update(User userId, String name, String address, String phone, String email, String imageUrl) {
         this.user = userId;
-        this.workshop = workshopid;
         this.address = address;
         this.name = name;
         this.phone = phone;
@@ -103,22 +97,6 @@ public class Customer {
 
     public void setUserId(User user) {
         this.user = user;
-    }
-
-    public Workshop getWorkshop() {
-        return workshop;
-    }
-
-    public void setWorkshop(Workshop workshopId) {
-        this.workshop = workshopId;
-    }
-
-    public Workshop getWorkshopId() {
-        return workshop;
-    }
-
-    public void setWorkshopId(Workshop workshop) {
-        this.workshop = workshop;
     }
 
 }
