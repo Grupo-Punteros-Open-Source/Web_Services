@@ -38,7 +38,6 @@ public class History {
         this.mileage = 0L;
     }
 
-
     public History(String service, String description, Double cost, Long mileage) {
         this();
         this.service = service;
