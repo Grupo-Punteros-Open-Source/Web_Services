@@ -1,6 +1,5 @@
 package com.acme.autoprotracker.User.Domain.Model.Aggregates;
 
-import com.acme.autoprotracker.User.Domain.Model.Commands.CreateCustomerCommand;
 import com.acme.autoprotracker.User.Domain.Model.Commands.CreateWorkshopCommand;
 import com.acme.autoprotracker.iam.domain.model.aggregates.User;
 import jakarta.persistence.*;
@@ -41,7 +40,7 @@ public class Workshop {
     @Getter
     @Setter
     @Column(name="image_Url")
-    private String imageUrl;
+    private String image_url;
 
 
     public Workshop() {
@@ -50,7 +49,7 @@ public class Workshop {
         this.address = "default";
         this.phone = "default";
         this.email = "default";
-        this.imageUrl = "default";
+        this.image_url = "default";
     }
 
     public Workshop(CreateWorkshopCommand command, User userId) {
@@ -60,7 +59,7 @@ public class Workshop {
         this.address = command.address();
         this.phone = command.phone();
         this.email = command.email();
-        this.imageUrl = command.imageUrl();
+        this.image_url = command.imageUrl();
     }
 
     public Workshop update(User userId, String name, String address, String phone, String email, String imageUrl) {
@@ -69,7 +68,7 @@ public class Workshop {
         this.name = name;
         this.phone = phone;
         this.email = email;
-        this.imageUrl = imageUrl;
+        this.image_url = imageUrl;
         return this;
     }
 

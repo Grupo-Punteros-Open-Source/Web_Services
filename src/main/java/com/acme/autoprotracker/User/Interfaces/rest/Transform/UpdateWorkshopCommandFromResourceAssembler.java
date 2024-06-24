@@ -11,7 +11,7 @@ public class UpdateWorkshopCommandFromResourceAssembler {
                 resource.address(),
                 resource.phone(),
                 resource.email(),
-                resource.imageUrl()
+                resource.image_url()
         );
     }
 }

@@ -32,7 +32,7 @@ public class Advertising {
     private Workshop workshopId;
 
     @URL @Getter
-    @Column(name = "imageUrl", nullable = false)
+    @Column(name = "image_url", nullable = false)
     private String imageUrl;
 
     @Column(name = "slogan", nullable = false) @Getter

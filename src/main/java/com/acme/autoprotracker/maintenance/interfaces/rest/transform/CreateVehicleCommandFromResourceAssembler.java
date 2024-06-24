@@ -12,7 +12,7 @@ public class CreateVehicleCommandFromResourceAssembler {
                 resource.year(),
                 resource.color(),
                 resource.image_url(),
-                resource.mileages(),
+                resource.mileage(),
                 resource.customer_id()
         );
     }

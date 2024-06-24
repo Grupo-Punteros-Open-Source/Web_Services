@@ -10,7 +10,7 @@ public class CreateWorkshopCommandFromResourceAssembler {public static CreateWor
             resource.address(),
             resource.phone(),
             resource.email(),
-            resource.imageUrl()
+            resource.image_url()
     );
 }
 }

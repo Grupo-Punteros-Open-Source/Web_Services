@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/v1/workshop", produces = "application/json")
-@Tag(name = "Workshop", description = "Workshop Management Endpoints")
+@RequestMapping(value = "/api/v1/workshops", produces = "application/json")
+@Tag(name = "Workshops", description = "Workshop Management Endpoints")
 public class WorkshopController {
 
     private final WorkshopCommandService workshopCommandService;
