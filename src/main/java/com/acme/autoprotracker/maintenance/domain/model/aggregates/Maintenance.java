@@ -29,27 +29,27 @@ public class Maintenance {
     private String comment;
 
     @Getter
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "invoiceId", nullable = true)
     private Invoice invoiceId;
 
     @Getter
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "customerId")
     private Customer customerId;
 
     @Getter
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "workshop_id")
     private Workshop workshopId;
 
     @Getter
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "vehicleId", nullable = false)
     private Vehicle vehicleId;
 
     @Getter
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "historyId", nullable = true)
     private History historyId;
 
